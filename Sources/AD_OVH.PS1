@@ -1351,17 +1351,17 @@ $ComputersEnabledTable.Add($objULic)
 
 $Allobjects =  $null
 
-#$totalcontacts = (Get-ADObject -Filter 'objectclass -eq "contact"').count
+$totalcontacts = (Get-ADObject -Filter 'objectclass -eq "contact"').count
 
-#$totalADgroups = (Get-ADGroup -Filter *).count 
+$totalADgroups = (Get-ADGroup -Filter *).count 
 
 $Allobjects  = New-Object 'System.Collections.Generic.List[System.Object]'
 
 $Allobjects = @(
-    #[pscustomobject]@{Name='Groups';Count=$totalADgroups}
-    [pscustomobject]@{Name='Utilisateurs'; Count=$totalusers}
+    [pscustomobject]@{Name='Groups';Count=$totalADgroups}
+    [pscustomobject]@{Name='Users'; Count=$totalusers}
     [pscustomobject]@{Name='Computers'; Count=$totalcomputers}
-   # [pscustomobject]@{Name='Contacts'; Count=$totalcontacts}
+    [pscustomobject]@{Name='Contacts'; Count=$totalcontacts}
 )
 
 Write-Host "Done!" -ForegroundColor White
@@ -1687,9 +1687,10 @@ New-HTML -TitleText 'AD_ROH' -FilePath $ReportSavePath -Show  {
             New-HTMLSection -HeaderText 'All Members' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
      
              New-HTMLPanel {
-                New-HTMLChart -Gradient -Title 'Répartitions des Objets AD' -TitleAlignment center -Height 300  {
+                New-HTMLChart -Gradient -Title 'RÃ©partitions des Objets AD' -TitleAlignment center -Height 300  {
                     New-ChartTheme -Palette palette10 -Mode light
-                    $Allobjects.GetEnumerator() | ForEach-Object {
+                    
+		    .GetEnumerator() | ForEach-Object {
                     New-ChartPie -Name $_.name -Value $_.count
                     }                    
                 }
@@ -1716,7 +1717,7 @@ New-HTML -TitleText 'AD_ROH' -FilePath $ReportSavePath -Show  {
             }
           Panel {
               #  Table -HideFooter -HideButtons  -DataTable $TOPComputersTable
-             New-HTMLImage -Source .\SCC.png -Target _top
+             New-HTMLImage -Source $CompanyLogo -Target _top
             }
         }
        
