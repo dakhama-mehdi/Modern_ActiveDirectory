@@ -1687,10 +1687,10 @@ New-HTML -TitleText 'AD_ROH' -FilePath $ReportSavePath -Show  {
             New-HTMLSection -HeaderText 'All Members' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
      
              New-HTMLPanel {
-                New-HTMLChart -Gradient -Title 'Répartitions des Objets AD' -TitleAlignment center -Height 300  {
+                New-HTMLChart -Gradient -Title 'Pourcent By AD Objects' -TitleAlignment center -Height 300  {
                     New-ChartTheme -Palette palette10 -Mode light
                     
-		    .GetEnumerator() | ForEach-Object {
+		    $Allobjects.GetEnumerator() | ForEach-Object {
                     New-ChartPie -Name $_.name -Value $_.count
                     }                    
                 }
