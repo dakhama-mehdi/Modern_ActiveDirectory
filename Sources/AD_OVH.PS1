@@ -68,7 +68,7 @@ param (
 	#Get users who have been created in X amount of days and less
 
 	[Parameter(ValueFromPipeline = $true, HelpMessage = "Users that have been created within [X] amount of days; Default: 7")]
-	$UserCreatedDays = 5,
+	$UserCreatedDays = 7,
 	#Get users whos passwords expire in less than X amount of days
 
 	[Parameter(ValueFromPipeline = $true, HelpMessage = "Users password expires within [X] amount of days; Default: 7")]
@@ -119,7 +119,7 @@ If ($null -eq $Mod)
 	Import-Module PSWriteHTML -ErrorAction SilentlyContinue
 } else { Import-Module PSWriteHTML}
 
-#Array of default Security Groups
+#Array of default Security Groups, work with all languages
 
 $DefaultSGs = $null
 $DefaultSGs = @()	
@@ -258,12 +258,12 @@ $SchemaMaster = $ForestObj.SchemaMaster
 
 $obj = [PSCustomObject]@{
 	
-	'Domain'			    = $Forest
+	'Domain'		    = $Forest
 	'AD Recycle Bin'	    = $ADRecycleBin
-	'Infrastructure Master' = $InfrastructureMaster
+	'Infrastructure Master'     = $InfrastructureMaster
 	'RID Master'		    = $RIDMaster
 	'PDC Emulator'		    = $PDCEmulator
-	'Domain Naming Master'  = $DomainNamingMaster
+	'Domain Naming Master'      = $DomainNamingMaster
 	'Schema Master'		    = $SchemaMaster
 }
 
@@ -425,7 +425,7 @@ Get-ADUser -Filter * -SearchBase $DefaultUsersOU -Properties Name,UserPrincipalN
 		'Enabled' = $_.Enabled
 		'Protected from Deletion' = $_.ProtectedFromAccidentalDeletion
 		'Last Logon' = (LastLogonConvert $_.lastlogon)
-        'Last LogonDate' = ($_.LastLogonDate)
+                'Last LogonDate' = ($_.LastLogonDate)
 		'Email Address' = $_.EmailAddress
 	}
 	
@@ -478,7 +478,7 @@ if (($ExpiringAccountsTable).Count -eq 0)
 #Security Logs, this is not improve, you can replace Account with name on your langue, for exemple replace by 'compte' for french version
 #We can replace it by event 4771 to list failed kerberos, this will be interesed, or listed 7 users logon on DC by RDP or openlocalsession
 
-Get-EventLog -Newest 7 -LogName "Security" -ComputerName $PDCEmulator | Where-Object { $_.Message -like "*Un compte*" }  | ForEach-Object {
+Get-EventLog -Newest 7 -LogName "Security" -ComputerName $PDCEmulator | Where-Object { $_.Message -like "*An Account*" }  | ForEach-Object {
 	
 	$TimeGenerated = $_.TimeGenerated
 	$EntryType = $_.EntryType
@@ -540,7 +540,7 @@ Write-Host "Working on Groups Report..." -ForegroundColor Green
 #Get groups and sort in alphabetical order
 #list only group with members, this can be interresed on big domain with a lot of groups, you can remove the where if you are in small company
 #I'm excluded the Exchange groups
-$Groups = Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergroups -Properties Member,ManagedBy,ProtectedFromAccidentalDeletion | where {$_.Member -ne $null}
+#$Groups = Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergroups -Properties Member,ManagedBy,ProtectedFromAccidentalDeletion | where {$_.Member -ne $null}
 $SecurityCount = 0
 $MailSecurityCount = 0
 $CustomGroup = 0
@@ -550,30 +550,34 @@ $Groupswithnomembership = 0
 $GroupsProtected = 0
 $GroupsNotProtected = 0
 $totalgroups = 0
+$DistroCount = 0 
 
+#if you are on big company, you can exclude the groups without membership it will be more fast and interessing
+Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergroups -Properties Member,ManagedBy,ProtectedFromAccidentalDeletion  | ForEach-Object {
 
-foreach ($Group in $Groups)
-{
 	$totalgroups ++
 
 	$DefaultADGroup = 'False'
 	$Type = New-Object 'System.Collections.Generic.List[System.Object]'
 	#$Gemail = (Get-ADGroup $Group -Properties mail).mail
-    $Gemail = $null
+        $Gemail = $null
 
-	if (($group.GroupCategory -eq "Security") -and ($Gemail -ne $Null))
+	if (($_.GroupCategory -eq "Security") -and ($Gemail -ne $Null))
 	{
 		
 		$MailSecurityCount++
 	}
 	
-	if (($group.GroupCategory -eq "Security") -and (($Gemail) -eq $Null))
+	if (($_.GroupCategory -eq "Security") -and (($Gemail) -eq $Null))
 	{
 		
 		$SecurityCount++
-	}
+	} } elseif ($_.GroupCategory -eq "Distribution") {
+
+        $DistroCount++
+        }    
 	
-	if ($Group.ProtectedFromAccidentalDeletion -eq $True)
+	if ($_.ProtectedFromAccidentalDeletion -eq $True)
 	{
 		
 		$GroupsProtected++
@@ -598,27 +602,27 @@ foreach ($Group in $Groups)
 		$CustomGroup++
 	}
 	
-	if ($group.GroupCategory -eq "Distribution")
+	if ($_.GroupCategory -eq "Distribution")
 	{
 		
 		$Type = "Distribution Group"
 	}
 	
-	if (($group.GroupCategory -eq "Security") -and (($Gemail) -eq $Null))
+	if (($_.GroupCategory -eq "Security") -and (($Gemail) -eq $Null))
 	{
 		
 		$Type = "Security Group"
 	}
 	
-	if (($group.GroupCategory -eq "Security") -and (($Gemail) -ne $Null))
+	if (($_.GroupCategory -eq "Security") -and (($Gemail) -ne $Null))
 	{
 		
 		$Type = "Mail-Enabled Security Group"
 	}
-	if ($Group.Name -ne "admins du domaine")
+	if ($_.Name -ne $admdomain)
 	{
       
-        $users = ($Group.member -split (",") | ? {$_ -like "CN=*"}) -replace ("CN="," ") -join ","
+        $users = ($_.member -split (",") | ? {$_ -like "CN=*"}) -replace ("CN="," ") -join ","
 	
 		if (!($users))
 		{
@@ -692,7 +696,6 @@ $obj1 = [PSCustomObject]@{
 }
 
 $GroupTypetable.Add($obj1)
-$DistroCount = ($Groups | Where-Object { $_.GroupCategory -eq "Distribution" }).Count
 
 $obj1 = [PSCustomObject]@{
 	
@@ -916,14 +919,15 @@ $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
 		{
 			
 			#Check for Fine Grained Passwords
+			#Note if not use the PSO, you can comment this or change by $passwordpol = $null
 			$PasswordPol = (Get-ADUserResultantPasswordPolicy $_)
 			
 			if (($PasswordPol) -ne $null)
 			{
 				
-				$maxPasswordAgePSO = ($PasswordPol).MaxPasswordAge
-                $expireson = $passwordsetdate.AddDays($maxPasswordAgePSO.days)
-                $maxPasswordAgePSO = $null
+			$maxPasswordAgePSO = ($PasswordPol).MaxPasswordAge
+                        $expireson = $passwordsetdate.AddDays($maxPasswordAgePSO.days)
+                        $maxPasswordAgePSO = $null
 			} else {
 		
 			$expireson = $passwordsetdate.AddDays($maxPasswordAge)
@@ -952,7 +956,7 @@ $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
 			'Enabled' = $_.Enabled
 			'Protected from Deletion' = $_.ProtectedFromAccidentalDeletion
 			'Last Logon' = $lastlog
-            'Last LongonDate' = $_.LastLogonDate
+                        'Last LongonDate' = $_.LastLogonDate
 			'Password Never Expires' = $_.PasswordNeverExpires
 			'Days Until Password Expires' = $daystoexpire
 		}
@@ -1003,9 +1007,10 @@ $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
 	$UPN = $_.UserPrincipalName
 	$Enabled = $_.Enabled
 	$EmailAddress = $_.EmailAddress
-    $LastLogon = $lastlog
-    $LastLogonDate = $_.LastLogonDate
-    $OU_DN     = (($_.DistinguishedName -split (",") | ? {$_ -like "OU=*"}) -replace ("OU=","") -join ",")
+        $LastLogon = $lastlog
+        $LastLogonDate = $_.LastLogonDate
+	$Created = $_.whencreated
+        $OU_DN     = (($_.DistinguishedName -split (",") | ? {$_ -like "OU=*"}) -replace ("OU=","") -join ",")
 	$AccountExpiration = $_.AccountExpirationDate
 	$PasswordExpired = $_.PasswordExpired
 	$PasswordLastSet = $_.PasswordLastSet
@@ -1019,8 +1024,9 @@ $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
 		'Enabled'				  = $Enabled
 		'Protected from Deletion' = $_.ProtectedFromAccidentalDeletion
 		'Last Logon'			  = $LastLogon
-        'Last Logon Date'         = $_.LastLogonDate
-        'OU - DN'                 = $OU_DN
+                'Last Logon Date'         = $_.LastLogonDate
+		'Created'                 = $Created
+                'OU - DN'                 = $OU_DN
 		'Email Address'		      = $EmailAddress
 		'Account Expiration'	  = $AccountExpiration
 		'Change Password Next Logon' = $PasswordExpired
@@ -1249,6 +1255,7 @@ Get-ADComputer -Filter * -Properties $filtercomputer -ResultSetSize $maxsearcher
 		$ComputerDisabled++
 	}
 
+#Fix bug when Win7 showed as 'Windows Embedded Standard'
 if (($_.OperatingSystem -match 'Windows Embedded Standard' -or $_.OperatingSystem -like '*7*')) { 
 
 if ($_.OperatingSystemVersion -like '6.1*') {
@@ -1262,9 +1269,9 @@ $_.OperatingSystem = 'Windows 7'}
 		'Enabled' = $_.Enabled
 		'Operating System' = $_.OperatingSystem
 		'Modified Date' = $_.Modified
-        'OU _ Patch'      = (($_.DistinguishedName -split (",") | ? {$_ -like "OU=*"}) -replace ("OU=","") -join ",")
-		'Password Last Set' = $_.PasswordLastSet
-        'Last Logon Date'   = $_.LastLogonDate
+                'OU _ Patch'      = (($_.DistinguishedName -split (",") | ? {$_ -like "OU=*"}) -replace ("OU=","") -join ",")
+	 	'Password Last Set' = $_.PasswordLastSet
+                'Last Logon Date'   = $_.LastLogonDate
 		'Protect from Deletion' = $_.ProtectedFromAccidentalDeletion
 	}
 	
@@ -1299,7 +1306,7 @@ $OSClass.GetEnumerator() | ForEach-Object {
 
 $hashcomputer = [PSCustomObject]@{
 
-	'Name'			    = $($_.key)
+	'Name'		    = $($_.key)
 	'Count'	            = $($_.value)
 }
 
@@ -1395,11 +1402,11 @@ New-HTML -TitleText 'AD_ROH' -FilePath $ReportSavePath -Show  {
        New-HTMLSection -Name 'Objects in Default OUs' -HeaderBackGroundColor teal -HeaderTextAlignment left {
 
             New-HTMLSection -Name 'Computers' -HeaderBackGroundColor teal  {
-                New-HTMLTableOption -DataStore JavaScript -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
+                New-HTMLTableOption -DataStore HTML -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
                 New-HTMLTable -HideFooter -DataTable $DefaultComputersinDefaultOUTable 
             }
             New-HTMLSection -Name 'Users' -HeaderBackGroundColor teal {
-                New-HTMLTableOption -DataStore JavaScript -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
+                New-HTMLTableOption -DataStore HTML -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
                 New-HTMLTable -HideFooter -DataTable $DefaultUsersinDefaultOUTable
             }
 
@@ -1414,10 +1421,10 @@ New-HTML -TitleText 'AD_ROH' -FilePath $ReportSavePath -Show  {
        New-HTMLSection -Name 'Expiring Items' -HeaderBackGroundColor teal -HeaderTextAlignment left {
 
             New-HTMLSection -Name "Users with Passwords Expiring in less than $DaysUntilPWExpireINT days" -HeaderBackGroundColor teal {
-                new-htmlTable -HideFooter -DataTable $PasswordExpireSoonTable 
+                New-htmlTable -HideFooter -DataTable $PasswordExpireSoonTable 
             }
             New-HTMLSection -Name 'Accounts Expiring Soon' -HeaderBackGroundColor teal {
-                New-HTMLTableOption -DataStore JavaScript -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
+                New-HTMLTableOption -DataStore HTML -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
                 New-HTMLTable -HideFooter -DataTable $ExpiringAccountsTable
             }
 
@@ -1426,16 +1433,16 @@ New-HTML -TitleText 'AD_ROH' -FilePath $ReportSavePath -Show  {
        New-HTMLSection -Name 'Accounts' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
 
             New-HTMLSection -Name "Users Haven't Logged on in $Days Days or more" -HeaderBackGroundColor teal  {
-                new-htmlTable -HideFooter -DataTable $userphaventloggedonrecentlytable  
+                New-htmlTable -HideFooter -DataTable $userphaventloggedonrecentlytable  
             }
             New-HTMLSection -Name "Accounts Created in $UserCreatedDays Days or Less" -HeaderBackGroundColor teal {
-                new-htmlTable -HideFooter -DataTable $NewCreatedUsersTable
+                New-htmlTable -HideFooter -DataTable $NewCreatedUsersTable
             }
 
         }
        New-HTMLSection -Name 'Security Logs' -HeaderBackGroundColor teal -HeaderTextAlignment left {
          New-HTMLPanel {
-                new-htmlTable -HideFooter -HideButtons -DataTable $securityeventtable -DisablePaging -DisableSelect -DisableStateSave -DisableInfo -DisableSearch
+                New-htmlTable -HideFooter -HideButtons -DataTable $securityeventtable -DisablePaging -DisableSelect -DisableStateSave -DisableInfo -DisableSearch
             }
         }       
        New-HTMLSection -Name 'UPN Suffixes' -HeaderBackGroundColor teal -HeaderTextAlignment left {
@@ -1554,7 +1561,7 @@ New-HTML -TitleText 'AD_ROH' -FilePath $ReportSavePath -Show  {
        
        New-HTMLSection -Name 'Active Directory Users' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
          New-HTMLPanel {
-                New-HTMLTableOption -DataStore JavaScript -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
+                New-HTMLTableOption -DataStore HTML -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
                 New-HTMLTable -DataTable $UserTable -DefaultSortColumn Name -HideFooter
             }
         }        
@@ -1633,9 +1640,8 @@ New-HTML -TitleText 'AD_ROH' -FilePath $ReportSavePath -Show  {
        
          Section -Name 'Computers' -HeaderBackGroundColor teal -HeaderTextAlignment left {
          New-HTMLPanel -Invisible {
-                New-HTMLTableOption -DataStore JavaScript -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
-                New-HTMLTable -DataTable $ComputersTable  
-                #New-HTMLTab  -DataTable $ComputersTable -DateTimeSortingFormat 'yyyy-MM-dd' -HideFooter 
+                New-HTMLTableOption -DataStore HTML -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
+                New-HTMLTable -DataTable $ComputersTable   
                             }
             }
 
