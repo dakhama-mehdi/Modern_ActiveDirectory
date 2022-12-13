@@ -1709,25 +1709,21 @@ New-HTML -TitleText 'AD_Report-Over-HTML' -FilePath $ReportSavePath -Show  {
 
        Section -Name 'About' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
          New-HTMLPanel {
-              New-HTMLText -Text 'Resume All objects AD' 
-              New-HTMLText -Text "Generate date $(get-date)"
-              New-HTMLText -Text 'Version: 1.0.3  
-              Author: Bradley Wyatt
-              Date: 12/4/2018
-              Modified: JBear 12/5/2018
-              Bradley Wyatt 12/8/2018
-              jporgand 12/6/2018
-              Version: 2.0.0
-              Modified: Dakhama Mehdi 
-               Date : 08/12/2022'
+         New-HTMLList {
+              New-HTMLListItem -Text 'Resume All objects AD' 
+              New-HTMLListItem -Text "Generated date $time"
+              New-HTMLListItem -Text 'Active Directory _ OverHTML  Version : 2.0  Author Dakhama Mehdi - Date : 12/12/2022<br> 
+              <br> Inspired ADReportHTLM Version : 1.0.3 Author: Bradley Wyatt - Date: 12/4/2018 [thelazyadministrato](https://www.thelazyadministrator.com/)<br>
+              <br> Thanks : JBear,jporgand<br>
+              <br> Credit : Mahmoud Hatira, Zouhair sarouti<br>
+              <br> Thanks : Boss PrzemyslawKlys - Module PSWriteHTML- [Evotec](https://evotec.xyz) '
+              } -FontSize 12
             }
-          Panel {
-              #  Table -HideFooter -HideButtons  -DataTable $TOPComputersTable
-             New-HTMLImage -Source $CompanyLogo -Target _top
-            }
-        }
-       
-              
+            
+          New-HTMLPanel {
+            New-HTMLImage -Source $RightLogo 
+        } 
+        }   
     }
 
     }
