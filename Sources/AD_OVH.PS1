@@ -1631,7 +1631,7 @@ New-HTML -TitleText 'AD_Report-Over-HTML' -FilePath $ReportSavePath -Show  {
 
     New-HTMLTab -Name 'Group Policy' -IconRegular hourglass {
         
-       Section -Name 'Users Overivew"' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+       New-HTMLSection -Name 'Users Overivew"' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
          New-HTMLPanel {
                 new-htmlTable  -DataTable $GPOTable 
             }
@@ -1641,13 +1641,13 @@ New-HTML -TitleText 'AD_Report-Over-HTML' -FilePath $ReportSavePath -Show  {
 
     New-HTMLTab -Name 'Computers' -IconBrands microsoft {
         
-       Section -Name 'Computers Overivew' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+       New-HTMLSection -Name 'Computers Overivew' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
          Panel {
                 New-HTMLTable -HideFooter -HideButtons -DataTable $TOPComputersTable
             }
         }
        
-         Section -Name 'Computers' -HeaderBackGroundColor teal -HeaderTextAlignment left {
+         New-HTMLSection -Name 'Computers' -HeaderBackGroundColor teal -HeaderTextAlignment left {
          New-HTMLPanel -Invisible {
                 New-HTMLTableOption -DataStore HTML -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
                 New-HTMLTable -DataTable $ComputersTable   
@@ -1694,16 +1694,16 @@ New-HTML -TitleText 'AD_Report-Over-HTML' -FilePath $ReportSavePath -Show  {
 
     New-HTMLTab -Name 'Resume'  {     
 
-       Section -Name 'Graphes' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+       New-HTMLSection -Name 'Graphes' -Invisible  {
 
-            Section -Name 'Nombres d objets' -HeaderBackGroundColor teal {
+            New-HTMLSection -Name 'Numbers of Object' -HeaderBackGroundColor teal {
                 new-htmlTable -HideFooter -DataTable $Allobjects
             }
-            New-HTMLSection -HeaderText 'All Members' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+            New-HTMLSection -HeaderText 'All Objects' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
      
              New-HTMLPanel {
                 New-HTMLChart -Gradient -Title 'Pourcent By AD Objects' -TitleAlignment center -Height 300  {
-                    New-ChartTheme -Palette palette10 -Mode light
+                    New-ChartTheme -Mode light
                     
 		    $Allobjects.GetEnumerator() | ForEach-Object {
                     New-ChartPie -Name $_.name -Value $_.count
@@ -1716,7 +1716,7 @@ New-HTML -TitleText 'AD_Report-Over-HTML' -FilePath $ReportSavePath -Show  {
 
         }
 
-       Section -Name 'About' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+       New-HTMLSection -Name 'About' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
          New-HTMLPanel {
          New-HTMLList {
               New-HTMLListItem -Text 'Resume All objects AD' 
