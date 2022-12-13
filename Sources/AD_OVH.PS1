@@ -1,8 +1,8 @@
 <#
 .SYNOPSIS
-    Generate graphed report for all Active Directory objects, Search and combine filter AD
+    Generate graphed report for all Active Directory objects, Search and filter AD
 .DESCRIPTION
-    Generate graphed report for all Active Directory objects.
+    This Script help to manage and easy search request AD  from HTML page
 .PARAMETER CompanyLogo
     Enter URL or UNC path to your desired Company Logo for generated report.
     -CompanyLogo "\\Server01\Admin\Files\CompanyLogo.png"
@@ -11,25 +11,27 @@
     -RightLogo "https://www.psmpartners.com/wp-content/uploads/2017/10/porcaro-stolarek-mete.png"
 .PARAMETER ReportTitle
     Enter desired title for generated report.
-    -ReportTitle "Active Directory Report"
+    -ReportTitle "Active Directory _ Over HTML"
 .PARAMETER Days
     Users that have not logged in [X] amount of days or more.
     -Days "30"
 .PARAMETER UserCreatedDays
     Users that have been created within [X] amount of days.
     -UserCreatedDays "7"
+.PARAMETER DaysUntilPWExpireINT
+    Users password expires within [X] amount of days
+    -DaysUntilPWExpireINT "7"
+.PARAMETER ADModNumber
+    Active Directory Objects that have been modified within [X] amount of days.
+    -ADModNumber "5"  
 .PARAMETER maxsearcher
     "MAX AD Objects to search, for quick test on bigg company we can chose a small value like 20 or 200; Default: 10000.
     -$maxsearcher "300"
 .PARAMETER maxsearchergroups
     "MAX AD Objects to search, for quick test on bigg company we can chose a small value like 20 or 200.
     -$maxsearchergroups "100"
-.PARAMETER DaysUntilPWExpireINT
-    Users password expires within [X] amount of days
-    -DaysUntilPWExpireINT "7"
-.PARAMETER ADModNumber
-    Active Directory Objects that have been modified within [X] amount of days.
-    -ADModNumber "3"
+
+
 .NOTES
     Version: 1.0.3
     Author: Bradley Wyatt
@@ -1712,7 +1714,7 @@ New-HTML -TitleText 'AD_Report-Over-HTML' -FilePath $ReportSavePath -Show  {
          New-HTMLList {
               New-HTMLListItem -Text 'Resume All objects AD' 
               New-HTMLListItem -Text "Generated date $time"
-              New-HTMLListItem -Text 'Active Directory _ OverHTML  Version : 2.0  Author Dakhama Mehdi - Date : 12/12/2022<br> 
+              New-HTMLListItem -Text 'Active Directory _ OverHTML  Version : 2.0  Author Dakhama Mehdi - Date : 08/12/2022<br> 
               <br> Inspired ADReportHTLM Version : 1.0.3 Author: Bradley Wyatt - Date: 12/4/2018 [thelazyadministrato](https://www.thelazyadministrator.com/)<br>
               <br> Thanks : JBear,jporgand<br>
               <br> Credit : Mahmoud Hatira, Zouhair sarouti<br>
