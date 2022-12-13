@@ -657,11 +657,11 @@ Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergrou
 	
 	$obj = [PSCustomObject]@{
 		
-		'Name' = $Group.name
+		'Name' = $_.name
 		'Type' = $Type
 		'Members' = $users
 		'Managed By' = $Manager
-		'E-mail Address' = $GEmail
+		#'E-mail Address' = $GEmail
 		'Protected from Deletion' = $Group.ProtectedFromAccidentalDeletion
 		'Default AD Group' = $DefaultADGroup
 	}
