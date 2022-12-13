@@ -5,6 +5,10 @@
     Generate graphed report for all Active Directory objects, Search and filter AD
 .DESCRIPTION
     This Script help to manage and easy search request AD  from HTML page
+.Requis 
+    Script can be executed from Win10/11 or windows server 2012 or more
+    required : RSAT Module AD and GPO 
+    Required : PSWriteHTML Module
 .PARAMETER CompanyLogo
     Enter URL or UNC path to your desired Company Logo for generated report.
     -CompanyLogo "\\Server01\Admin\Files\CompanyLogo.png"
