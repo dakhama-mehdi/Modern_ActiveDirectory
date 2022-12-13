@@ -189,7 +189,7 @@ $AllUsers = $null
 $AllUsers = Get-ADUser -Filter * -Properties $Alluserpropert -ResultSetSize $maxsearcher
 
 Write-Host get All GPO settings
-$GPOs = Get-GPO -All | Select-Object DisplayName, GPOStatus, ModificationTime, @{ Label = "ComputerVersion"; Expression = { $_.computer.dsversion } }, @{ Label = "UserVersion"; Expression = { $_.user.dsversion } }
+$GPOs = Get-GPO -All | Select-Object DisplayName, GPOStatus, CreationTime, @{ Label = "ComputerVersion"; Expression = { $_.computer.dsversion } }, @{ Label = "UserVersion"; Expression = { $_.user.dsversion } }
 
 #region Dashboard
 <###########################
@@ -827,7 +827,7 @@ Get-ADOrganizationalUnit -Filter * -Properties ProtectedFromAccidentalDeletion -
 		
 		'Name' = $_.Name
 		'Linked GPOs' = $LinkedGPOs
-		'Modified Date' = $_.WhenChanged
+		'Created Date' = $_.CreationTime
 		'Protected from Deletion' = $_.ProtectedFromAccidentalDeletion
 	}
 	
