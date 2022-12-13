@@ -1,3 +1,5 @@
+
+
 <#
 .SYNOPSIS
     Generate graphed report for all Active Directory objects, Search and filter AD
@@ -390,14 +392,14 @@ $DefaultComputersOU = (Get-ADDomain).computerscontainer
 
 Write-Host 'get All computers properties on default OU'
 
-Get-ADComputer -Filter * -Properties OperatingSystem,Modified,PasswordLastSet,ProtectedFromAccidentalDeletion -SearchBase "$DefaultComputersOU"  | ForEach-Object {
+Get-ADComputer -Filter * -Properties OperatingSystem,Created,PasswordLastSet,ProtectedFromAccidentalDeletion -SearchBase "$DefaultComputersOU"  | ForEach-Object {
 	
 	$obj = [PSCustomObject]@{
 		
 		'Name' = $_.Name
 		'Enabled' = $_.Enabled
 		'Operating System' = $_.OperatingSystem
-		'Modified Date' = $_.Modified
+		'Created Date' = $_.Created
 		'Password Last Set' = $_.PasswordLastSet
 		'Protect from Deletion' = $_.ProtectedFromAccidentalDeletion
 	}
@@ -574,9 +576,10 @@ Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergrou
 	{
 		
 		$SecurityCount++
-	} } elseif ($_.GroupCategory -eq "Distribution") {
+	}  elseif ($_.GroupCategory -eq "Distribution") {
 
         $DistroCount++
+
         }    
 	
 	if ($_.ProtectedFromAccidentalDeletion -eq $True)
@@ -591,7 +594,7 @@ Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergrou
 		$GroupsNotProtected++
 	}
 	
-	if ($DefaultSGs -contains $Group.Name)
+	if ($DefaultSGs -contains $_.Name)
 	{
 		
 		$DefaultADGroup = "True"
@@ -660,6 +663,7 @@ Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergrou
 	}
 	
 	$table.Add($obj)
+}
 
 if (($table).Count -eq 0)
 {
@@ -1218,7 +1222,7 @@ $filtercomputer = @(
 'OperatingSystemVersion'
 'ProtectedFromAccidentalDeletion'
 'lastlogondate'
-'Modified'
+'Created'
 'PasswordLastSet'
 'DistinguishedName'
 )
@@ -1269,10 +1273,10 @@ $_.OperatingSystem = 'Windows 7'}
 		'Name' = $_.Name
 		'Enabled' = $_.Enabled
 		'Operating System' = $_.OperatingSystem
-		'Modified Date' = $_.Modified
-                'OU _ Patch'      = (($_.DistinguishedName -split (",") | ? {$_ -like "OU=*"}) -replace ("OU=","") -join ",")
+		'Created Date' = $_.Created
+        'OU _ Patch'      = (($_.DistinguishedName -split (",") | ? {$_ -like "OU=*"}) -replace ("OU=","") -join ",")
 	 	'Password Last Set' = $_.PasswordLastSet
-                'Last Logon Date'   = $_.LastLogonDate
+        'Last Logon Date'   = $_.LastLogonDate
 		'Protect from Deletion' = $_.ProtectedFromAccidentalDeletion
 	}
 	
