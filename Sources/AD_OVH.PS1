@@ -1707,10 +1707,10 @@ New-HTML -TitleText 'AD_Report-Over-HTML' -FilePath $ReportSavePath -Show  {
 
         }
 
-       Section -Name 'Apropos' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+       Section -Name 'About' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
          New-HTMLPanel {
               New-HTMLText -Text 'Resume All objects AD' 
-              New-HTMLText -Text "Rapport date $(get-date)"
+              New-HTMLText -Text "Generate date $(get-date)"
               New-HTMLText -Text 'Version: 1.0.3  
               Author: Bradley Wyatt
               Date: 12/4/2018
