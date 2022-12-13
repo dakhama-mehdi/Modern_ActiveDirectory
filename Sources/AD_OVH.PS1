@@ -660,7 +660,6 @@ Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergrou
 	}
 	
 	$table.Add($obj)
-}
 
 if (($table).Count -eq 0)
 {
