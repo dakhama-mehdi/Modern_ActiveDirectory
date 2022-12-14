@@ -1194,7 +1194,7 @@ foreach ($GPO in $GPOs)
 		
 		'Name' = $GPO.DisplayName
 		'Status' = $GPO.GpoStatus
-		'Modified Date' = $GPO.ModificationTime
+		'Created Date' = $GPO.CreationTime
 		'User Version' = $GPO.UserVersion
 		'Computer Version' = $GPO.ComputerVersion
 	}
