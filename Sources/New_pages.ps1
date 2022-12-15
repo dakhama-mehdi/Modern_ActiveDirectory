@@ -57,7 +57,7 @@ param (
 	#Logo that will be on the right side, UNC or URL
 
 	[Parameter(ValueFromPipeline = $true, HelpMessage = "Enter URL or UNC path for Side Logo")]
-	[String]$RightLogo = "",
+	[String]$RightLogo = "https://github.com/dakhama-mehdi/AD_OVH/blob/main/Images/AD_OVH.png?raw=true",
 	#Title of generated report
 
 	[Parameter(ValueFromPipeline = $true, HelpMessage = "Enter desired title for report")]
