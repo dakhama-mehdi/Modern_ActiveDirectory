@@ -323,7 +323,7 @@ New-HTML -TitleText 'AD_OVH' -ShowHTML -Online -FilePath $ReportSavePath {
            
                 New-HTMLPanel {
                 New-HTMLChart -Title 'Computers Operating Systems' -TitleAlignment center  { 
-                    New-ChartTheme -Palette palette5 -Mode light
+                    New-ChartTheme  -Mode light
                     $GraphComputerOS.GetEnumerator() | ForEach-Object {
                     New-ChartPie -Name $_.name -Value $_.count 
                     }                    
@@ -351,7 +351,7 @@ New-HTML -TitleText 'AD_OVH' -ShowHTML -Online -FilePath $ReportSavePath {
      
              New-HTMLPanel {
                 New-HTMLChart -Gradient -Title 'Pourcent By AD Objects' -TitleAlignment center -Height 300  {
-                    New-ChartTheme -Palette palette10 -Mode light
+                    New-ChartTheme -Mode light
                     
 		    $Allobjects.GetEnumerator() | ForEach-Object {
                     New-ChartPie -Name $_.name -Value $_.count
