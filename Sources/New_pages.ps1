@@ -1,6 +1,6 @@
-New-HTML -TitleText 'AD_OVH' {
+New-HTML -TitleText 'AD_OVH' -ShowHTML -Online -FilePath $ReportSavePath {
    
-    New-HTMLNavTop -Logo $CompanyLogo -MenuColorBackground 	gray  -MenuColor Black -HomeColorBackground gray  -HomeLinkHome   {
+    New-HTMLNavTop -Logo $CompanyLogo -MenuColorBackground gray  -MenuColor Black -HomeColorBackground gray  -HomeLinkHome   {
        
         New-NavTopMenu -Name 'Domains' -IconRegular address-book -IconColor black  {
         New-NavLink -IconSolid users -Name 'Groups' -InternalPageID 'Groups'
@@ -386,4 +386,4 @@ New-HTML -TitleText 'AD_OVH' {
     }    
 
     
-} -ShowHTML -Online -FilePath $ReportSavePath
+} 
