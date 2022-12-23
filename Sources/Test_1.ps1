@@ -47,24 +47,24 @@
     Date : 08/12/2022
 #>
 
-#region Code 
+#region code
 
 param (
 	
 	#Company logo that will be displayed on the left, can be URL or UNC
 	[Parameter(ValueFromPipeline = $true, HelpMessage = "Enter URL or UNC path to Company Logo")]
-	[String]$CompanyLogo = "https://github.com/dakhama-mehdi/AD_OVH/blob/main/Images/AD_OVH.png?raw=true",
+	[String]$CompanyLogo = ".\cg13.png",
 	#Logo that will be on the right side, UNC or URL
 
 	[Parameter(ValueFromPipeline = $true, HelpMessage = "Enter URL or UNC path for Side Logo")]
-	[String]$RightLogo = "https://github.com/dakhama-mehdi/AD_OVH/blob/main/Images/AD_OVH.png?raw=true",
+	[String]$RightLogo = ".\scc.png",
 	#Title of generated report
 
 	[Parameter(ValueFromPipeline = $true, HelpMessage = "Enter desired title for report")]
-	[String]$ReportTitle = "Active Directory _ Over HTML",
+	[String]$ReportTitle = "Active Directory Over HTML - NOVEA",
 	#Location the report will be saved to
 
-	[Parameter(ValueFromPipeline = $true, HelpMessage = "Enter desired directory path to save; Default: C:\Temp\")]
+	[Parameter(ValueFromPipeline = $true, HelpMessage = "Enter desired directory path to save; Default: C:\Automation\")]
 	[String]$ReportSavePath = "C:\Temp\AD_ovh.html",
 	#Find users that have not logged in X Amount of days, this sets the days
 
@@ -80,7 +80,7 @@ param (
 	$DaysUntilPWExpireINT = 7,
 	#Get AD Objects that have been modified in X days and newer
 
-	[Parameter(ValueFromPipeline = $true, HelpMessage = "AD Objects that have been deleted")]
+	[Parameter(ValueFromPipeline = $true, HelpMessage = "AD Objects that have been modified within [X] amount of days; Default: 3")]
 	$ADModNumber = 5,
 
     [Parameter(ValueFromPipeline = $true, HelpMessage = "MAX AD Objects to search, for quick test on bigg company we can chose a small value like 20 or 200; Default: 10000")]
@@ -89,7 +89,7 @@ param (
     [Parameter(ValueFromPipeline = $true, HelpMessage = "MAX AD Objects to search, for quick test on bigg company we can chose a small value like 20 or 200; Default: 10000")]
 	$maxsearchergroups = 100
 	
-	#CSS template located C:\Program Files\WindowsPowerShell\Modules\PswriteHTML\
+	#CSS template located C:\Program Files\WindowsPowerShell\Modules\ReportHTML\1.4.1.1\
 	#Default template is orange and named "Sample"
 )
 
@@ -118,15 +118,14 @@ $Mod = Get-Module -ListAvailable -Name "PSWriteHTML"
 If ($null -eq $Mod)
 {
 	
-	Write-Host "PSWriteHTML Module is not present, attempting to install it"
+	Write-Host "ReportHTML Module is not present, attempting to install it"
 	
 	Install-Module -Name PSWriteHTML -Force
 	Import-Module PSWriteHTML -ErrorAction SilentlyContinue
 } else { Import-Module PSWriteHTML}
 
-#Array of default Security Groups, work with all languages
-
-$DefaultSGs = $null
+#Array of default Security Groups
+$DefaultSGs = $barcreateobject = $null
 $DefaultSGs = @()	
 $DefaultSGs += ([adsisearcher]"(&(groupType:1.2.840.113556.1.4.803:=1)(!(objectSID=S-1-5-32-546))(!(objectSID=S-1-5-32-545)))").findall().Properties.name
 $DefaultSGs += ([adsisearcher] "(&(objectCategory=group)(admincount=1)(iscriticalsystemobject=*))").FindAll().Properties.name
@@ -141,7 +140,7 @@ $EnabledDisabledUsersTable = New-Object 'System.Collections.Generic.List[System.
 $DomainAdminTable = New-Object 'System.Collections.Generic.List[System.Object]'
 $ExpiringAccountsTable = New-Object 'System.Collections.Generic.List[System.Object]'
 $CompanyInfoTable = New-Object 'System.Collections.Generic.List[System.Object]'
-$securityeventtable = New-Object 'System.Collections.Generic.List[System.Object]'
+$Unlockusers = New-Object 'System.Collections.Generic.List[System.Object]'
 $DomainTable = New-Object 'System.Collections.Generic.List[System.Object]'
 $OUGPOTable = New-Object 'System.Collections.Generic.List[System.Object]'
 $GroupMembershipTable = New-Object 'System.Collections.Generic.List[System.Object]'
@@ -164,6 +163,8 @@ $TOPUserTable = New-Object 'System.Collections.Generic.List[System.Object]'
 $TOPGroupsTable = New-Object 'System.Collections.Generic.List[System.Object]'
 $TOPComputersTable = New-Object 'System.Collections.Generic.List[System.Object]'
 $GraphComputerOS = New-Object 'System.Collections.Generic.List[System.Object]'
+$barcreateobject = New-Object 'System.Collections.Generic.List[System.Object]'
+
 #endregion PScustom
 
 #Get all users right away. Instead of doing several lookups, we will use this object to look up all the information needed.
@@ -181,12 +182,14 @@ $Alluserpropert = @(
 'AccountExpirationDate'
 )
 
-Write-Host get All users properties
+Write-Host get All users properties -ForegroundColor Green
+
 $AllUsers = $null
 $AllUsers = Get-ADUser -Filter * -Properties $Alluserpropert -ResultSetSize $maxsearcher
 
+
 Write-Host get All GPO settings
-$GPOs = Get-GPO -All | Select-Object DisplayName, GPOStatus, CreationTime, @{ Label = "ComputerVersion"; Expression = { $_.computer.dsversion } }, @{ Label = "UserVersion"; Expression = { $_.user.dsversion } }
+$GPOs = Get-GPO -All | Select-Object DisplayName, GPOStatus, id, ModificationTime, CreationTime, @{ Label = "ComputerVersion"; Expression = { $_.computer.dsversion } }, @{ Label = "UserVersion"; Expression = { $_.user.dsversion } }
 
 #region Dashboard
 <###########################
@@ -223,7 +226,6 @@ Get-ADObject -Filter { whenchanged -gt $dte -and isDeleted -eq $true -and (Objec
 	
 	$ADObjectTable.Add($obj)
 }
-
 
 if (($ADObjectTable).Count -eq 0)
 {
@@ -263,12 +265,12 @@ $SchemaMaster = $ForestObj.SchemaMaster
 
 $obj = [PSCustomObject]@{
 	
-	'Domain'		    = $Forest
+	'Domain'			    = $Forest
 	'AD Recycle Bin'	    = $ADRecycleBin
-	'Infrastructure Master'     = $InfrastructureMaster
+	'Infrastructure Master' = $InfrastructureMaster
 	'RID Master'		    = $RIDMaster
 	'PDC Emulator'		    = $PDCEmulator
-	'Domain Naming Master'      = $DomainNamingMaster
+	'Domain Naming Master'  = $DomainNamingMaster
 	'Schema Master'		    = $SchemaMaster
 }
 
@@ -285,7 +287,6 @@ if (($CompanyInfoTable).Count -eq 0)
 }
 
 #Get newly created users
-
 $When = ((Get-Date).AddDays(-$UserCreatedDays)).Date
 
 $AllUsers | Where-Object { $_.whenCreated -ge $When } | ForEach-Object {
@@ -391,16 +392,16 @@ if (($EnterpriseAdminTable).Count -eq 0)
 
 $DefaultComputersOU = (Get-ADDomain).computerscontainer
 
-Write-Host 'get All computers properties on default OU'
+Write-Host 'get All computer properties on default OU'
 
-Get-ADComputer -Filter * -Properties OperatingSystem,Created,PasswordLastSet,ProtectedFromAccidentalDeletion -SearchBase "$DefaultComputersOU"  | ForEach-Object {
+Get-ADComputer -Filter * -Properties OperatingSystem,Modified,PasswordLastSet,ProtectedFromAccidentalDeletion -SearchBase "$DefaultComputersOU"  | ForEach-Object {
 	
 	$obj = [PSCustomObject]@{
 		
 		'Name' = $_.Name
 		'Enabled' = $_.Enabled
 		'Operating System' = $_.OperatingSystem
-		'Created Date' = $_.Created
+		'Modified Date' = $_.Modified
 		'Password Last Set' = $_.PasswordLastSet
 		'Protect from Deletion' = $_.ProtectedFromAccidentalDeletion
 	}
@@ -418,8 +419,6 @@ if (($DefaultComputersinDefaultOUTable).Count -eq 0)
 	$DefaultComputersinDefaultOUTable.Add($obj)
 }
 
-Write-Host 'get All users properties on default OU'
-
 $DefaultUsersOU = (Get-ADDomain).UsersContainer 
 Get-ADUser -Filter * -SearchBase $DefaultUsersOU -Properties Name,UserPrincipalName,Enabled,ProtectedFromAccidentalDeletion,EmailAddress,DistinguishedName | foreach-object {
 	
@@ -430,7 +429,7 @@ Get-ADUser -Filter * -SearchBase $DefaultUsersOU -Properties Name,UserPrincipalN
 		'Enabled' = $_.Enabled
 		'Protected from Deletion' = $_.ProtectedFromAccidentalDeletion
 		'Last Logon' = (LastLogonConvert $_.lastlogon)
-                'Last LogonDate' = ($_.LastLogonDate)
+        'Last LogonDate' = ($_.LastLogonDate)
 		'Email Address' = $_.EmailAddress
 	}
 	
@@ -450,9 +449,14 @@ if (($DefaultUsersinDefaultOUTable).Count -eq 0)
 #Expiring Accounts, this is list all expiring Account and still enabel also expiring user soon 
 Write-Host Expiring Accounts and not disabled
 $dateexpiresoone = (Get-DAte).AddDays(7)
+$expiredsoon = 0
+$expired = (get-date)
 
 $AllUsers | Where-Object {$_.AccountExpirationDate -lt $dateexpiresoone -and $_.AccountExpirationDate -ne $null -and $_.enabled -eq $true} | foreach-object {
 	
+    if ($_.AccountExpirationDate -gt $expired) { $expiredsoon++ } 
+    else {
+
 	$NameLoose = $_.Name
 	$UPNLoose = $_.UserPrincipalName
 	$ExpirationDate = $_.AccountExpirationDate
@@ -468,6 +472,7 @@ $AllUsers | Where-Object {$_.AccountExpirationDate -lt $dateexpiresoone -and $_.
 	
 	$ExpiringAccountsTable.Add($obj)
 }
+}
 
 if (($ExpiringAccountsTable).Count -eq 0)
 {
@@ -479,38 +484,36 @@ if (($ExpiringAccountsTable).Count -eq 0)
 	$ExpiringAccountsTable.Add($obj)
 }
 
-
 #Security Logs, this is not improve, you can replace Account with name on your langue, for exemple replace by 'compte' for french version
 #We can replace it by event 4771 to list failed kerberos, this will be interesed, or listed 7 users logon on DC by RDP or openlocalsession
 
-Get-EventLog -Newest 7 -LogName "Security" -ComputerName $PDCEmulator | Where-Object { $_.Message -like "*An Account*" }  | ForEach-Object {
-	
-	$TimeGenerated = $_.TimeGenerated
-	$EntryType = $_.EntryType
-	$Recipient = $_.Message
+#Get-EventLog -Newest 7 -LogName "Security" -ComputerName $PDCEmulator | Where-Object { $_.Message -like "*Un compte*" }  | ForEach-Object {
+Search-ADAccount -LockedOut -UsersOnly  | ForEach-Object { 
+
 	
 	$obj = [PSCustomObject]@{
 		
-		'Time'    = $TimeGenerated
-		'Type'    = $EntryType
-		'Message' = $Recipient
+		'name'    = $_.name
+		'samaccountname'    = $_.samaccountname
+		'lastlogondate ' = $_.lastlogondate 
+        'distinguishedname' = $_.distinguishedname
 	}
 	
-	$SecurityEventTable.Add($obj)
+	$Unlockusers.Add($obj)
 }
 
-if (($SecurityEventTable).Count -eq 0)
+if (($Unlockusers).Count -eq 0)
 {
 	
 	$Obj = [PSCustomObject]@{
 		
 		Information = 'Information: No logon security events were found'
 	}
-	$SecurityEventTable.Add($obj)
+	$Unlockusers.Add($obj)
 }
 
 #Tenant Domain
- Get-ADForest | Select-Object -ExpandProperty upnsuffixes | ForEach-Object{
+ Get-ADForest | Select-Object -ExpandProperty upnsuffixes | ForEach-Object {
 	
 	$obj = [PSCustomObject]@{
 		
@@ -535,15 +538,17 @@ Write-Host "Done!" -ForegroundColor White
 
 #region groups
 <###########################
+
 		   Groups
+
 ############################>
 
 Write-Host "Working on Groups Report..." -ForegroundColor Green
 
 #Get groups and sort in alphabetical order
 #list only group with members, this can be interresed on big domain with a lot of groups, you can remove the where if you are in small company
-#I'm excluded the Exchange groups
-#$Groups = Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergroups -Properties Member,ManagedBy,ProtectedFromAccidentalDeletion | where {$_.Member -ne $null}
+#I'm excluded the Exchange groups -ResultSetSize $maxsearchergroups
+#$Groups = Get-ADGroup -Filter "name -notlike '*Exchange*'"  -Properties Member,ManagedBy,ProtectedFromAccidentalDeletion | where {$_.Member -ne $null}
 $SecurityCount = 0
 $MailSecurityCount = 0
 $CustomGroup = 0
@@ -555,15 +560,25 @@ $GroupsNotProtected = 0
 $totalgroups = 0
 $DistroCount = 0 
 
-#if you are on big company, you can exclude the groups without membership it will be more fast and interessing
-Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergroups -Properties Member,ManagedBy,ProtectedFromAccidentalDeletion  | ForEach-Object {
+#Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergroups  -Properties Member,ManagedBy,ProtectedFromAccidentalDeletion | where {$_.Member -ne $null} | ForEach-Object {
+Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergroups  -Properties Member,ManagedBy,ProtectedFromAccidentalDeletion  | ForEach-Object {
 
-	$totalgroups ++
+$totalgroups++
+
+if  (!$_.member) { 
+
+$Groupswithnomembership++
+
+ }  
+ 
+ else {
+
+	$Groupswithmemebrship++
 
 	$DefaultADGroup = 'False'
 	$Type = New-Object 'System.Collections.Generic.List[System.Object]'
 	#$Gemail = (Get-ADGroup $Group -Properties mail).mail
-        $Gemail = $null
+    $Gemail = $null
 
 	if (($_.GroupCategory -eq "Security") -and ($Gemail -ne $Null))
 	{
@@ -575,11 +590,10 @@ Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergrou
 	{
 		
 		$SecurityCount++
-	}  elseif ($_.GroupCategory -eq "Distribution") {
+	} elseif ($_.GroupCategory -eq "Distribution") {
 
         $DistroCount++
-
-        }    
+    }    
 	
 	if ($_.ProtectedFromAccidentalDeletion -eq $True)
 	{
@@ -623,31 +637,23 @@ Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergrou
 		
 		$Type = "Mail-Enabled Security Group"
 	}
+
+
 	if ($_.Name -ne $admdomain)
 	{
       
         $users = ($_.member -split (",") | ? {$_ -like "CN=*"}) -replace ("CN="," ") -join ","
-	
-		if (!($users))
-		{
-			
-			$Groupswithnomembership++
-		}
-		
-		else
-		{
-			
-			$Groupswithmemebrship++
-			
-		}
+
 	}	
+
 	else
 	{
 		
 		$Users = "Skipped Domain Users Membership"
 	}
 
-    $OwnerDN = ($group.ManagedBy -split (",") | ? {$_ -like "CN=*"}) -replace ("CN=","")
+
+    $OwnerDN = ($_.ManagedBy -split (",") | ? {$_ -like "CN=*"}) -replace ("CN=","")
 
 	
 	$obj = [PSCustomObject]@{
@@ -655,13 +661,15 @@ Get-ADGroup -Filter "name -notlike '*Exchange*'" -ResultSetSize $maxsearchergrou
 		'Name' = $_.name
 		'Type' = $Type
 		'Members' = $users
-		'Managed By' = $Manager
+		'Managed By' = $OwnerDN
 		#'E-mail Address' = $GEmail
-		'Protected from Deletion' = $Group.ProtectedFromAccidentalDeletion
+		'Protected from Deletion' = $_.ProtectedFromAccidentalDeletion
 		'Default AD Group' = $DefaultADGroup
 	}
 	
 	$table.Add($obj)
+}
+
 }
 
 if (($table).Count -eq 0)
@@ -765,18 +773,21 @@ Write-Host "Done!" -ForegroundColor White
 
 #region OU
 <###########################
+
     Organizational Units
+
 ############################>
 
 Write-Host "Working on Organizational Units Report..." -ForegroundColor Green
 
 #Get all OUs'
+#$OUs = Get-ADOrganizationalUnit -Filter * -Properties ProtectedFromAccidentalDeletion -ResultSetSize 1
 $OUwithLinked = 0
 $OUwithnoLink = 0
 $OUProtected = 0
 $OUNotProtected = 0
 
-#Get OU, and info, i have chose onelevel to skip loops when the are many OUs, on small company with few OU you can chose subtree on searchscope
+#foreach ($OU in $OUs)
 Get-ADOrganizationalUnit -Filter * -Properties ProtectedFromAccidentalDeletion -SearchScope OneLevel | ForEach-Object {
 	
 	$LinkedGPOs = New-Object 'System.Collections.Generic.List[System.Object]'
@@ -820,7 +831,7 @@ Get-ADOrganizationalUnit -Filter * -Properties ProtectedFromAccidentalDeletion -
 		
 		'Name' = $_.Name
 		'Linked GPOs' = $LinkedGPOs
-		'Created Date' = $_.CreationTime
+		'Modified Date' = $_.WhenChanged
 		'Protected from Deletion' = $_.ProtectedFromAccidentalDeletion
 	}
 	
@@ -876,7 +887,9 @@ Write-Host "Done!" -ForegroundColor White
 
 #region Users
 <###########################
+
            USERS
+
 ############################>
 
 Write-Host "Working on Users Report..." -ForegroundColor Green
@@ -888,12 +901,17 @@ $UserPasswordNeverExpires = 0
 $ProtectedUsers = 0
 $NonProtectedUsers = 0
 $totalusers = 0
+$Userinactive = 0
+$Createdlastdays = ((Get-Date).AddDays(-30)).Date
+$lastcreatedusers = 0
+$neverlogedenabled = 0
 
 $UsersWIthPasswordsExpiringInUnderAWeek = 0
 $UsersNotLoggedInOver30Days = 0
+$AccountsExpiringSoon = 0
 
 #Get users that haven't logged on in X amount of days, var is set at start of script
-$userphaventloggedonrecentlytable = New-Object 'System.Collections.Generic.List[System.Object]'
+#$userphaventloggedonrecentlytable = New-Object 'System.Collections.Generic.List[System.Object]'
 $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
 
  $AllUsers | ForEach-Object {
@@ -903,6 +921,13 @@ $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
     $lastlog = (LastLogonConvert $_.lastlogon)
 
 
+    #User Never loged and Enabled
+    if (($_.lastlogondate -eq $null) -and ($_.Enabled -ne $false)) 
+    {
+     $neverlogedenabled++
+    }
+
+    #get days until password expired
 	if ((($_.PasswordNeverExpires) -eq $False) -and (($_.Enabled) -ne $false))
 	{
 		
@@ -919,15 +944,14 @@ $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
 		{
 			
 			#Check for Fine Grained Passwords
-			#Note if not use the PSO, you can comment this or change by $passwordpol = $null
 			$PasswordPol = (Get-ADUserResultantPasswordPolicy $_)
 			
 			if (($PasswordPol) -ne $null)
 			{
 				
-			$maxPasswordAgePSO = ($PasswordPol).MaxPasswordAge
-                        $expireson = $passwordsetdate.AddDays($maxPasswordAgePSO.days)
-                        $maxPasswordAgePSO = $null
+				$maxPasswordAgePSO = ($PasswordPol).MaxPasswordAge
+                $expireson = $passwordsetdate.AddDays($maxPasswordAgePSO.days)
+                $maxPasswordAgePSO = $null
 			} else {
 		
 			$expireson = $passwordsetdate.AddDays($maxPasswordAge)
@@ -946,9 +970,11 @@ $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
 		$daystoexpire = "N/A"
 	}
 	
+
+
 	if (($_.Enabled -eq $True) -and ($lastlog -lt ((Get-Date).AddDays(-$Days))) -and ($_.LastLogon -ne $NULL))
 	{
-		
+	    <#
 		$obj = [PSCustomObject]@{
 			
 			'Name' = $_.Name
@@ -956,13 +982,44 @@ $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
 			'Enabled' = $_.Enabled
 			'Protected from Deletion' = $_.ProtectedFromAccidentalDeletion
 			'Last Logon' = $lastlog
-                        'Last LongonDate' = $_.LastLogonDate
+            'Last LongonDate' = $_.LastLogonDate
 			'Password Never Expires' = $_.PasswordNeverExpires
 			'Days Until Password Expires' = $daystoexpire
 		}
-		
-		$userphaventloggedonrecentlytable.Add($obj)
+		#>
+
+		#$userphaventloggedonrecentlytable.Add($obj)
+        $userinactive++
 	}
+
+    #Get User created Last 30 days
+    if ( $_.whenCreated -ge $createdlastdays ) 
+    {
+
+    $lastcreatedusers++
+
+    $barcreated = ($_.Whencreated.ToString("yyyy/MM/dd"))
+
+    $rec=$barcreateobject | where {$_.date -eq $barcreated } 
+
+    if ($rec) {
+
+            $rec.Nbr_users += 1
+    } else {
+
+       $obj = [PSCustomObject]@{
+		
+		'Nbr_users' = 1
+        'Nbr_PC' = 0
+		'Date' = $barcreated
+	}
+
+$barcreateobject.Add($obj)
+
+}
+
+    }
+
 	
 	#Items for protected vs non protected users
 	if ($_.ProtectedFromAccidentalDeletion -eq $False)
@@ -1007,10 +1064,10 @@ $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
 	$UPN = $_.UserPrincipalName
 	$Enabled = $_.Enabled
 	$EmailAddress = $_.EmailAddress
-        $LastLogon = $lastlog
-        $LastLogonDate = $_.LastLogonDate
-	$Created = $_.whencreated
-        $OU_DN     = (($_.DistinguishedName -split (",") | ? {$_ -like "OU=*"}) -replace ("OU=","") -join ",")
+    $LastLogon = $lastlog
+    $LastLogonDate = $_.LastLogonDate
+    $Created = $_.whencreated
+    $OU_DN     = (($_.DistinguishedName -split (",") | ? {$_ -like "OU=*"}) -replace ("OU=","") -join ",")
 	$AccountExpiration = $_.AccountExpirationDate
 	$PasswordExpired = $_.PasswordExpired
 	$PasswordLastSet = $_.PasswordLastSet
@@ -1024,9 +1081,9 @@ $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
 		'Enabled'				  = $Enabled
 		'Protected from Deletion' = $_.ProtectedFromAccidentalDeletion
 		'Last Logon'			  = $LastLogon
-                'Last Logon Date'         = $_.LastLogonDate
-		'Created'                 = $Created
-                'OU - DN'                 = $OU_DN
+        'Last Logon Date'         = $_.LastLogonDate
+        'Created'                 = $Created
+        'OU - DN'                 = $OU_DN
 		'Email Address'		      = $EmailAddress
 		'Account Expiration'	  = $AccountExpiration
 		'Change Password Next Logon' = $PasswordExpired
@@ -1050,6 +1107,7 @@ $maxPasswordAge = (Get-ADDefaultDomainPasswordPolicy).MaxPasswordAge.Days
 	}
 }
 
+<#
 if (($userphaventloggedonrecentlytable).Count -eq 0)
 {
 	$userphaventloggedonrecentlytable = [PSCustomObject]@{
@@ -1057,6 +1115,9 @@ if (($userphaventloggedonrecentlytable).Count -eq 0)
 		Information = "Information: No Users were found to have not logged on in $Days days or more"
 	}
 }
+
+#>
+
 if (($PasswordExpireSoonTable).Count -eq 0)
 {
 	
@@ -1128,6 +1189,8 @@ $objULic = [PSCustomObject]@{
 }
 
 $ProtectedUsersTable.Add($objULic)
+
+<#
 if ($null -ne (($userphaventloggedonrecentlytable).Information))
 {
 	$UHLONXD = "0"
@@ -1138,6 +1201,8 @@ Else
 	$UHLONXD = $userphaventloggedonrecentlytable.Count
 	
 }
+#>
+
 #TOP User table
 If ($null -eq (($ExpiringAccountsTable).Information))
 {
@@ -1146,7 +1211,7 @@ If ($null -eq (($ExpiringAccountsTable).Information))
 		'Total Users' = $totalusers
 		"Users with Passwords Expiring in less than $DaysUntilPWExpireINT days" = $PasswordExpireSoonTable.Count
 		'Expiring Accounts' = $ExpiringAccountsTable.Count
-		"Users Haven't Logged on in $Days Days or more" = $UHLONXD
+		"Locked users" = $UHLONXD
 	}
 	
 	$TOPUserTable.Add($objULic)
@@ -1160,7 +1225,7 @@ Else
 		'Total Users' = $totalusers
 		"Users with Passwords Expiring in less than $DaysUntilPWExpireINT days" = $PasswordExpireSoonTable.Count
 		'Expiring Accounts' = "0"
-		"Users Haven't Logged on in $Days Days or more" = $UHLONXD
+		"Lock" = $UHLONXD
 	}
 	$TOPUserTable.Add($objULic)
 }
@@ -1170,12 +1235,14 @@ Write-Host "Done!" -ForegroundColor White
 
 #region GPO
 <###########################
+
 	   Group Policy
+
 ############################>
 Write-Host "Working on Group Policy Report..." -ForegroundColor Green
 
 $GPOTable = New-Object 'System.Collections.Generic.List[System.Object]'
-
+<#
 foreach ($GPO in $GPOs)
 {
 	
@@ -1189,8 +1256,42 @@ foreach ($GPO in $GPOs)
 	}
 	
 	$GPOTable.Add($obj)
+}#>
+
+#Get GPOs Not Linked
+#region gponotlinked
+$rootDSE = $adObjects = $linkedGPO = $null
+# info: # gpLink est une chaine de caractère de la forme [LDAP://cn={C408C216-5CEE-4EE7-B8BD-386600DC01EA},cn=policies,cn=system,DC=domain,DC=com;0][LDAP://cn={C408C16-5D5E-4EE7-B8BD-386611DC31EA},cn=policies,cn=system,DC=domain,DC=com;0]
+
+[System.Collections.Generic.List[PSObject]]$adObjects = @()
+[System.Collections.Generic.List[PSObject]]$linkedGPO = @()
+
+$rootDSE = Get-ADRootDSE
+
+$domainAndOUS = Get-ADObject -LDAPFilter "(&(|(objectClass=organizationalUnit)(objectClass=domainDNS))(gplink=*))" -SearchBase "$($rootDSE.defaultNamingcontext)" -Properties gpLink
+$sites = Get-ADObject -LDAPFilter "(&(objectClass=site)(gplink=*))" -SearchBase "$($rootDSE.configurationNamingContext)" -Properties gpLink
+
+# construit une liste avec tous les gpLink existants
+$adObjects.Add($domainAndOUS)
+$adObjects.Add($sites)
+
+    # Compare si GUID de la GPO existe dans les gpLink
+    # gpLink est une chaine de caractère de la forme [LDAP://cn={C408C216-5CEE-4EE7-B8BD-386600DC01EA},cn=policies,cn=system,DC=domain,DC=com;0][LDAP://cn={C408C16-5D5E-4EE7-B8BD-386611DC31EA},cn=policies,cn=system,DC=domain,DC=com;0]
+    
+    $GPOs | ForEach-Object {
+    
+    if($adObjects.gpLink -match $_.id) {
+        $linkedGPO.Add($_.DisplayName)
+    }
 }
-if (($GPOTable).Count -eq 0)
+
+# cast en array pour prendre en considération le cas où un seul object
+$gponotlinked = ([array]($gpos | Where-Object {$_.DisplayName -notin $linkedGPO}) | select DisplayName,CreationTime,GposStatus)
+
+ 
+#endrgion gponotlinked
+
+if (($GPOs).Count -eq 0)
 {
 	
 	$Obj = [PSCustomObject]@{
@@ -1204,7 +1305,9 @@ Write-Host "Done!" -ForegroundColor White
 
 #region Computers
 <###########################
+
 	   Computers
+
 ############################>
 Write-Host "Working on Computers Report..." -ForegroundColor Green
 
@@ -1218,12 +1321,13 @@ $filtercomputer = @(
 'DistinguishedName'
 )
 
-#$Computers = Get-ADComputer -Filter * -Properties $filtercomputer -ResultSetSize $maxsearcher
 $ComputersProtected = 0
 $ComputersNotProtected = 0
 $ComputerEnabled = 0
 $ComputerDisabled = 0
 $totalcomputers = 0
+$ComputerNotSupported = 0
+$lastcreatedpc = 0
 
 #Only search for versions of windows that exist in the Environment
 
@@ -1231,7 +1335,6 @@ $OSClass = $WindowsRegex = $null
 $WindowsRegex = "(Windows (Server )?(\d+|XP)?(\d+|Vista)?( R2)?).*"
 $OSClass = @{}
 
-#foreach ($Computer in $Computers)
 Get-ADComputer -Filter * -Properties $filtercomputer -ResultSetSize $maxsearcher | ForEach-Object {
 
 	$totalcomputers ++
@@ -1251,7 +1354,35 @@ Get-ADComputer -Filter * -Properties $filtercomputer -ResultSetSize $maxsearcher
 		$ComputerDisabled++
 	}
 
-#Fix bug when Win7 showed as 'Windows Embedded Standard'
+    #Computer Created last 30 jours 
+    if ( $_.Created -ge $createdlastdays ) 
+    {
+
+    $lastcreatedpc++
+
+    $barcreated = ($_.created.ToString("yyyy/MM/dd"))
+
+    $rec=$barcreateobject | where {$_.date -eq $barcreated } 
+
+    if ($rec) {
+
+            $rec.Nbr_PC += 1
+    } else {
+
+       $obj = [PSCustomObject]@{
+		
+		'Nbr_users' = 0
+        'Nbr_PC' = 1
+		'Date' = $barcreated
+	}
+
+$barcreateobject.Add($obj)
+
+}
+
+    }
+
+
 if (($_.OperatingSystem -match 'Windows Embedded Standard' -or $_.OperatingSystem -like '*7*')) { 
 
 if ($_.OperatingSystemVersion -like '6.1*') {
@@ -1266,7 +1397,7 @@ $_.OperatingSystem = 'Windows 7'}
 		'Operating System' = $_.OperatingSystem
 		'Created Date' = $_.Created
         'OU _ Patch'      = (($_.DistinguishedName -split (",") | ? {$_ -like "OU=*"}) -replace ("OU=","") -join ",")
-	 	'Password Last Set' = $_.PasswordLastSet
+		'Password Last Set' = $_.PasswordLastSet
         'Last Logon Date'   = $_.LastLogonDate
 		'Protect from Deletion' = $_.ProtectedFromAccidentalDeletion
 	}
@@ -1280,7 +1411,14 @@ $_.OperatingSystem = 'Windows 7'}
         $OSClass[$matches[1]] += $matches[1].Count
     } elseif ($null -ne $_.OperatingSystem) {
         $OSClass[$_.OperatingSystem] += $_.OperatingSystem.Count
-    }    
+    }   
+    
+    #Get unsuported Machines
+   
+   switch ($_.OperatingSystem ) {
+
+    {$_ -match 2003 -or $_ -match 2008 -or $_ -match 2000 -or $_ -match 7 -or $_ -match 'Vista' -or $_ -match 'XP' } {$ComputerNotSupported++}
+}
 
 }
 
@@ -1302,7 +1440,7 @@ $OSClass.GetEnumerator() | ForEach-Object {
 
 $hashcomputer = [PSCustomObject]@{
 
-	'Name'		    = $($_.key)
+	'Name'			    = $($_.key)
 	'Count'	            = $($_.value)
 }
 
@@ -1356,12 +1494,12 @@ $Allobjects =  $null
 
 $totalcontacts = (Get-ADObject -Filter 'objectclass -eq "contact"').count
 
-$totalADgroups = (Get-ADGroup -Filter *).count 
+#$totalADgroups = (Get-ADGroup -Filter *).count 
 
 $Allobjects  = New-Object 'System.Collections.Generic.List[System.Object]'
 
 $Allobjects = @(
-    [pscustomobject]@{Name='Groups';Count=$totalADgroups}
+    [pscustomobject]@{Name='Groups';Count=$totalgroups}
     [pscustomobject]@{Name='Users'; Count=$totalusers}
     [pscustomobject]@{Name='Computers'; Count=$totalcomputers}
     [pscustomobject]@{Name='Contacts'; Count=$totalcontacts}
@@ -1371,11 +1509,13 @@ Write-Host "Done!" -ForegroundColor White
 
 #endregion code 
 
-#region genratepage
+$time = (get-date)
 
-New-HTML -TitleText 'AD_OVH' -ShowHTML -Online -FilePath $ReportSavePath {
+#region generatehtml
+
+New-HTML -TitleText 'AD_OVH' {
    
-    New-HTMLNavTop -Logo $CompanyLogo -MenuColorBackground gray  -MenuColor Black -HomeColorBackground gray  -HomeLinkHome   {
+    New-HTMLNavTop -Logo $CompanyLogo -MenuColorBackground 	gray  -MenuColor Black -HomeColorBackground gray  -HomeLinkHome   {
        
         New-NavTopMenu -Name 'Domains' -IconRegular address-book -IconColor black  {
         New-NavLink -IconSolid users -Name 'Groups' -InternalPageID 'Groups'
@@ -1393,7 +1533,7 @@ New-HTML -TitleText 'AD_OVH' -ShowHTML -Online -FilePath $ReportSavePath {
         }
     } 
    
-New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
+    New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
    
     New-HTMLTabStyle  -BackgroundColorActive teal
         
@@ -1414,8 +1554,8 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
         New-HTMLToast  -Text "Users not login in Last 90 Days : $userinactive" -IconSolid user-clock -TextColor CarrotOrange -BarColorLeft CarrotOrange -IconColor CarrotOrange
         }
 
-        New-HTMLSection -Invisible {
-        New-HTMLToast -Text "Users Never Loged : $($DomainTable."UPN Suffixes")" -IconSolid id-card
+        New-HTMLSection -Invisible  {
+        New-HTMLToast -Text "Users Never Loged : $neverlogedenabled" -IconSolid house-user
         }
 
         New-HTMLSection -Invisible {
@@ -1448,7 +1588,7 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
         }
 
       New-HTMLSection -Invisible  {
-      New-HTMLToast  -Text "GPOs not Linked : $gponotlinked " -IconSolid scroll -TextColor deeppink -BarColorLeft deeppink -IconColor deeppink
+      New-HTMLToast  -Text "GPOs not Linked : $($gponotlinked.count) " -IconSolid scroll -TextColor deeppink -BarColorLeft deeppink -IconColor deeppink
         }
       
      }
@@ -1504,13 +1644,15 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
       
       New-HTMLPanel -BackgroundColor Orange  -AlignContentText center  {
       New-HTMLText -LineBreak
+      New-HTMLText -LineBreak
       New-HTMLTag -Tag 'i' -Attributes @{ class = "fas fa-bell fa-5x" } 
       New-HTMLText -Text "Account Expired Soon " -Alignment center -FontSize 14
-      New-HTMLText -Text "44" -FontSize 14
+      New-HTMLText -Text $expiredsoon -FontSize 14
       }
 
 
       New-HTMLPanel -BackgroundColor Cyan  -AlignContentText center {
+      New-HTMLText -LineBreak
       New-HTMLText -LineBreak
       New-HTMLTag -Tag 'i' -Attributes @{ class = "fas fa-exclamation fa-5x" }
       New-HTMLText -Text "Password Expired Soon ." -FontSize 14
@@ -1526,7 +1668,7 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
 
       New-HTMLSection -Name 'AD Objects in Recycle Bin' -HeaderBackGroundColor teal  {
                 New-HTMLTableOption -DataStore HTML -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ',' 
-                New-htmlTable -HideFooter -DataTable $ADObjectTable  -PagingLength 10
+                New-htmlTable -HideFooter -DataTable $ADObjectTable -PagingLength 10
            } 
 
 
@@ -1538,34 +1680,32 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
                 new-htmlTable -HideFooter -DataTable $EnterpriseAdminTable -PagingLength 10 -DisableInfo -Buttons pdfHtml5
             }
 
-        }             
-            
+        }    
+                   
    
           }
-
-
-    
+              
     New-HTMLPage -Name 'Groups' {
         New-HTMLTab -Name 'Groups' -IconSolid user-alt   {
 
-       Section -Name 'Groups Overivew' -HeaderBackGroundColor Teal -HeaderTextAlignment left {
-         Panel {
+       New-HTMLSection -Name 'Groups Overivew' -HeaderBackGroundColor Teal -HeaderTextAlignment left {
+         New-HTMLPanel {
                 new-htmlTable -HideFooter -HideButtons -DataTable $TOPGroupsTable -DisablePaging -DisableSelect -DisableStateSave -DisableInfo -DisableSearch
             }
         }          
           
-       Section -Name 'Active Directory Groups' -HeaderBackGroundColor teal -HeaderTextAlignment left {
-         Panel {
+       New-HTMLSection -Name 'Active Directory Groups' -HeaderBackGroundColor teal -HeaderTextAlignment left {
+         New-HTMLPanel {
                 new-htmlTable -HideFooter -DataTable $Table
             }
         }
         
-       Section -Name 'Objects in Default OUs' -HeaderBackGroundColor teal -HeaderTextAlignment left {
-            Section -Name 'Domain Administrators' -HeaderBackGroundColor teal  {
+       New-HTMLSection -Name 'Objects in Default OUs' -HeaderBackGroundColor teal -HeaderTextAlignment left {
+            New-HTMLSection -Name 'Domain Administrators' -HeaderBackGroundColor teal  {
                 new-htmlTable -HideFooter -DataTable $DomainAdminTable 
                 
             }
-            Section -Name 'Enterprise Administrators' -HeaderBackGroundColor teal {
+            New-HTMLSection -Name 'Enterprise Administrators' -HeaderBackGroundColor teal {
                 new-htmlTable -HideFooter -DataTable $EnterpriseAdminTable
             }
 }                  
@@ -1615,8 +1755,8 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
     New-HTMLPage -Name 'OU' {
         New-HTMLTab -Name 'Organizational Units' -IconRegular folder {          
           
-       Section -Name 'Organizational Units infos' -HeaderBackGroundColor teal -HeaderTextAlignment left {
-         Panel {
+       New-HTMLSection -Name 'Organizational Units infos' -HeaderBackGroundColor teal -HeaderTextAlignment left {
+         New-HTMLPanel {
                 new-htmlTable -HideFooter -DataTable $OUTable
             }
         }
@@ -1651,51 +1791,63 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
     New-HTMLPage -Name 'GPO' {
         New-HTMLTab -Name 'Group Policy' -IconRegular hourglass {
         
-       Section -Name 'Users Overivew"' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
-         Panel {
-                new-htmlTable  -DataTable $GPOTable 
+       New-HTMLSection -Name 'Informations"' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+         New-HTMLPanel {
+                New-HTMLTable  -DataTable $GPOs 
             }
         }
+       
+       New-HTMLSection -Name 'Information' -Invisible {
 
+       New-HTMLSection -Name 'GPOs Not Linked Details' {
+              New-HTMLTable -DataTable $gponotlinked -PagingLength 10
+       }
+
+       New-HTMLSection -Name 'Linked Vs Inliked GPOs' -Width "50%"  {
+            New-HTMLChart -Gradient {
+                New-ChartLegend -LegendPosition bottom
+                New-ChartDonut -Name 'Inlinked' -Value $gponotlinked.Count -Color Silver
+                New-ChartDonut -Name 'linked' -Value $GPOs.Count -Color CarrotOrange
+            }
+        }
     }
-
-
+    }
     }
 
     New-HTMLPage -Name 'Users' {
 
         New-HTMLTab -Name 'Users' -IconSolid audio-description  {
         
-       Section -Name 'Users Overivew' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
-         Panel {
+       New-HTMLSection -Name 'Users Overivew' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+         New-HTMLPanel {
                 new-htmlTable -HideFooter -HideButtons  -DataTable $TOPUserTable -DisableSearch
             }
         }
        
-       Section -Name 'Active Directory Users' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
-         Panel {
+       New-HTMLSection -Name 'Active Directory Users' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+         New-HTMLPanel {
                 New-HTMLTableOption -DataStore HTML -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
                 New-HTMLTable -DataTable $UserTable -DefaultSortColumn Name -HideFooter
             }
         }        
         
-       Section -Name 'Expiring Items' -HeaderBackGroundColor teal -HeaderTextAlignment left {
+       New-HTMLSection -Name 'Expiring Items' -HeaderBackGroundColor teal -HeaderTextAlignment left {
 
-            Section -Name "Users Haven't Logged on in $Days Days or more" -HeaderBackGroundColor teal -HeaderTextAlignment left {
-                New-HTMLTable -HideFooter -DataTable $userphaventloggedonrecentlytable 
+            New-HTMLSection -Name "Users Locked" -HeaderBackGroundColor teal -HeaderTextAlignment left {
+                New-HTMLTable -HideFooter -DataTable $Unlockusers
             }
-            Section -Name "Accounts Created in $UserCreatedDays Days or Less" -HeaderBackGroundColor teal -HeaderTextAlignment left {
+            New-HTMLSection -Name "Accounts Created in $UserCreatedDays Days or Less" -HeaderBackGroundColor teal -HeaderTextAlignment left {
                 New-HTMLTable -HideFooter -DataTable $NewCreatedUsersTable
             }
 
         }
 
-       Section -Name 'Accounts' -HeaderBackGroundColor teal -HeaderTextAlignment left {
+       New-HTMLSection -Name 'Accounts' -HeaderBackGroundColor teal -HeaderTextAlignment left {
 
-       Section -Name "Users with Passwords Expiring in less than $DaysUntilPWExpireINT days" -HeaderBackGroundColor teal -HeaderTextAlignment left {
+       New-HTMLSection -Name "Users with Passwords Expiring in less than $DaysUntilPWExpireINT days" -HeaderBackGroundColor teal -HeaderTextAlignment left {
                 new-htmlTable -HideFooter -DataTable $PasswordExpireSoonTable
             }
-       Section -Name "Accounts Expiring Soon" -HeaderBackGroundColor teal -HeaderTextAlignment left {
+       New-HTMLSection -Name "Accounts Expiring Soon" -HeaderBackGroundColor teal -HeaderTextAlignment left {
                 new-htmlTable -HideFooter -DataTable $ExpiringAccountsTable
             }
 
@@ -1737,16 +1889,17 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
     }
 
     New-HTMLPage -Name 'Computers' {
+
         New-HTMLTab -Name 'Computers' -IconBrands microsoft {
         
-       Section -Name 'Computers Overivew' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
-         Panel {
+       New-HTMLSection -Name 'Computers Overivew' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+         New-HTMLPanel {
                 New-HTMLTable -HideFooter -HideButtons -DataTable $TOPComputersTable
             }
         }
        
-         Section -Name 'Computers' -HeaderBackGroundColor teal -HeaderTextAlignment left {
-         Panel -Invisible {
+         New-HTMLSection -Name 'Computers' -HeaderBackGroundColor teal -HeaderTextAlignment left {
+         New-HTMLPanel -Invisible {
                 New-HTMLTableOption -DataStore HTML -DateTimeFormat 'yyyy-MM-dd' -ArrayJoin -ArrayJoinString ','
                 New-HTMLTable -DataTable $ComputersTable  
                 #New-HTMLTab  -DataTable $ComputersTable -DateTimeSortingFormat 'yyyy-MM-dd' -HideFooter 
@@ -1778,7 +1931,7 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
          New-HTMLSection -HeaderText 'Computers Operating System Breakdown' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
            
                 New-HTMLPanel {
-                New-HTMLChart -Title 'Computers Operating Systems' -TitleAlignment center  { 
+                New-HTMLChart -Gradient -Title 'Computers Operating Systems' -TitleAlignment center  { 
                     New-ChartTheme  -Mode light
                     $GraphComputerOS.GetEnumerator() | ForEach-Object {
                     New-ChartPie -Name $_.name -Value $_.count 
@@ -1798,7 +1951,7 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
     
     New-HTMLTab -Name 'Resume' {     
 
-       New-HTMLSection -Name 'Graphes' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+       New-HTMLSection -Name 'Graphes' -Invisible {
 
             New-HTMLSection -Name 'Nombres d objets' -HeaderBackGroundColor teal {
                 new-htmlTable -HideFooter -DataTable $Allobjects
@@ -1807,8 +1960,7 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
      
              New-HTMLPanel {
                 New-HTMLChart -Gradient -Title 'Pourcent By AD Objects' -TitleAlignment center -Height 300  {
-                    New-ChartTheme -Mode light
-                    
+                    New-ChartTheme  -Mode light                    
 		    $Allobjects.GetEnumerator() | ForEach-Object {
                     New-ChartPie -Name $_.name -Value $_.count
                     }                    
@@ -1820,7 +1972,7 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
 
         }
 
-       Section -Name 'About' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
+       New-HTMLSection -Name 'About' -HeaderBackGroundColor teal -HeaderTextAlignment left  {
          New-HTMLPanel {
          New-HTMLList {
               New-HTMLListItem -Text 'Resume All objects AD' 
@@ -1839,7 +1991,9 @@ New-HTMLTab -Name 'Dashboard' -IconRegular chart-bar  {
         }   
     }
 
-    }        
-} 
+    }    
 
- #endregion genratepage
+    
+} -ShowHTML -Online -FilePath $ReportSavePath
+
+#endregion generatehtml
