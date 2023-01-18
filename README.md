@@ -1,7 +1,7 @@
 # AD_OVH
 Active Directory _ Over HTML _ Report 
 
-![Logo](Pictures/ADSMH3.png "Logo")
+![Logo](Pictures/ADSMH.png "Logo")
 
 under constrution... 
 
