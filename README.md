@@ -1,7 +1,7 @@
 # AD_MR
 Active Directory _ Modern _ Report 
 
-![Logo](Pictures/ADSM4.png "Logo")
+![Logo](Pictures/Logo.png "Logo")
 
 under constrution... 
 
