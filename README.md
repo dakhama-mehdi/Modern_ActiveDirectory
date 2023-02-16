@@ -1,4 +1,4 @@
-# Active Directory _ Modern _ Report 
+# Modern Active Directory
 ![Logo](Pictures/Logo.png "Logo")
 
 
