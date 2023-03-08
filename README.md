@@ -1,5 +1,5 @@
 # Modern Active Directory
-![Logo](Pictures/SmallLogo.png "Logo")
+![Logo](Pictures/Logo.png "Logo")
 
 
 Modern Active Directory Look, New Experience, Fast, Easy, Secure from One Command
