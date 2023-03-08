@@ -2,7 +2,7 @@
 ![Logo](Pictures/Logo.png "Logo")
 
 
-Modern Active Directory Look, New Experience, Fast, Easy, Secure from One Command
+New Active Directory Experience, Modern Look [Fast, Easy, Secure] from One Command
 
 This new project is based upon the PSHTML-AD-REPORT project from [add user] and improve its functionality up to 90% more aiming to ease the representation of your AD through HTML pages. The product helps you through researches both for an IT admins or a delegated user accounts/groups.
 
