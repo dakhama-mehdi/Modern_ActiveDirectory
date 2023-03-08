@@ -1,5 +1,5 @@
 # Modern Active Directory
-![Logo](Pictures/Logo.png "Logo")
+![Logo](Pictures/SmallLogo.png "Logo")
 
 
 under constrution... 
