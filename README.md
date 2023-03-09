@@ -1,11 +1,14 @@
-# Modern Active Directory
+# ModernActiveDirectory
 ![Logo](Pictures/Logo.png "Logo")
 
+ModernActiveDirectory is Powershell Module with a new experience to give you a gloabl view of Active Directory environment.
 
-New Active Directory Experience, Modern Look [Fast, Easy, Secure] from One Command
+From a beautiful interactive report HTML we can :
+* View key indicators
+* Inventory of Active Directory
+* Browse safely Active directory essential objects 
+* Advanced searches in a simple way
+* Support all Active directory languages
+* No sensitive informations is exposed or listed
 
-This new project is based upon the PSHTML-AD-REPORT project from [add user] and improve its functionality up to 90% more aiming to ease the representation of your AD through HTML pages. The product helps you through researches both for an IT admins or a delegated user accounts/groups.
-
-This script uses PSwriteHtml module to perform its tasks.
-
-No PowerShell knowledge are required to use this script - everything is a clic-away from your needs.
+# New Look [Fast, Easy, Secure] from One Command
