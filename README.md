@@ -40,6 +40,15 @@ Get-ADModernReport
 ```Powershell
 Get-ADModernReport -illimitedsearch -SavePath C:\MyFolder
 ```
+#### Help
+- List Examples
+```Powershell
+Get-Help Get-ADModernReport -Examples
+```
+- More detail
+```Powershell
+Get-Help Get-ADModernReport -Detailed
+```
 ### Dependencies
 - [x] RSAT if run externally from Windows 10 machine
 - [ ] Powershell 5.1 or more
@@ -48,18 +57,18 @@ Get-ADModernReport -illimitedsearch -SavePath C:\MyFolder
 | parameters  | Description |
 | ------------- | ------------- |
 | CompanyLogo   | Logo that will be in the upper left corner of the report  |
-| Content Cell  | Content Cell  |
+| IllimitedSearch | Search in all objects without number limits |
+| OUlevelSearch | Search level in OUs (Base/Onelevel/Subtree) |
+| SavePath      | where the report will be saved (Example : C:\report ) |
+| HtmlOnePage | Generates a report in one page, (recommended for small companies) |
 | RightLogo     | The logo that will be in the upper right corner of the report |
 | ReportTitle   | the title of the report |
-| SavePath      | where the report will be saved (Example : C:\report ) |
 | Days          | Defines the days for "Search for users who have not logged in for X days" |
 | UserCreatedDays | Defines the days to "Get users who have been created in X days or less" |
 | DayUntilPWExpireINT | Sets the days to "Get users whose passwords expire in less than X days" |
 | Maxsearcher | Maximum number of Computer/User objects to search |
-| OUlevelSearch | Search level in OUs (Base/Onelevel/Subtree) |
-| IllimitedSearch | Search in all objects without number limits |
 | Showadmin | Display the administrators in the result |
-| HtmlOnePage | Generates a report in one page, (recommended for small companies) |
+
 
 ## Credits
 ### MVP Members 
