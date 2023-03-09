@@ -1,4 +1,4 @@
-https://img.shields.io/bower/l/Bootstrap?style=plastic
+![Bower](https://img.shields.io/bower/l/Bootstrap?style=plastic)![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/ModernActivedirectory)
 
 # ModernActiveDirectory
 
