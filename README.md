@@ -33,8 +33,8 @@ Update-Module -Name ModernActiveDirectory
 ```Powershell
 Get-ADModernReport
 ```
-[ ]  By default the number of objects listed is limited to 200 / if company have more than 200 objects by category use -illimiteddsearch
-[ ]  The report is saved on %appdata%\Temp current user by default / to change the directory use the parameters -Savepatch
+- [ ]  By default the number of objects listed is limited to 200 / if company have more than 200 objects by category use -illimiteddsearch
+- [ ]  The report is saved on %appdata%\Temp current user by default / to change the directory use the parameters -Savepatch
 
 ```Powershell
 Get-ADModernReport -illimitedsearch -SavePath C:\MyFolder
