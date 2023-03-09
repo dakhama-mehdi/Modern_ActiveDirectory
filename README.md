@@ -11,6 +11,7 @@ New experience given an overview of Active Directory environment from a beautifu
 - [ ] Browse safely Active directory essential objects 
 - [ ] Advanced searches in a simple way
 - [ ] Support all Active directory languages
+- [ ] Faster report building
 - [ ] No sensitive informations is exposed 
 - [x] Work in corporate of any size :tada:
 
@@ -29,7 +30,7 @@ Install-Module -Name ModernActiveDirectory -Scope Currentuser
 ```Powershell
 Update-Module -Name ModernActiveDirectory
 ```
-#### How to use
+#### Usage
 ```Powershell
 Get-ADModernReport
 ```
@@ -39,3 +40,26 @@ Get-ADModernReport
 ```Powershell
 Get-ADModernReport -illimitedsearch -SavePath C:\MyFolder
 ```
+### Dependencies
+- [x] RSAT if run externally from Windows 10 machine
+- [ ] Powershell 5.1 or more
+- [ ] PSWriteHTML Module (if use offline install)
+### Variables
+| parameters  | Description |
+| ------------- | ------------- |
+| CompanyLogo   | Logo that will be in the upper left corner of the report  |
+| Content Cell  | Content Cell  |
+| RightLogo     | The logo that will be in the upper right corner of the report |
+| ReportTitle   | the title of the report |
+| SavePath      | where the report will be saved (Example : C:\report ) |
+| Days          | Defines the days for "Search for users who have not logged in for X days" |
+| UserCreatedDays | Defines the days to "Get users who have been created in X days or less" |
+| DayUntilPWExpireINT | Sets the days to "Get users whose passwords expire in less than X days" |
+| Maxsearcher | Maximum number of Computer/User objects to search |
+| OUlevelSearch | Search level in OUs (Base/Onelevel/Subtree) |
+| IllimitedSearch | Search in all objects without number limits |
+| Showadmin | Display the administrators in the result |
+| HtmlOnePage | Generates a report in one page, (recommended for small companies) |
+
+## Credits
+[Przemyslaw Klys](https://www.linkedin.com/in/pklys/) https://github.com/EvotecIT/PSWriteHTML author of PSWriteHTML - without him this wouldn't be possible.
