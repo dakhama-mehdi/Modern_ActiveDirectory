@@ -4,9 +4,8 @@
 
 ![Logo](Pictures/Logo.png "Logo")
 
-New experience to give you a gloabl view of Active Directory environment.
-### Features 
-From a beautiful interactive report HTML we can :
+New experience to give you an overview of Active Directory environment from beautiful interactive HTML report
+### What can i do with : 
 - [ ] View key indicators
 - [ ] Inventory of Active Directory
 - [ ] Browse safely Active directory essential objects 
