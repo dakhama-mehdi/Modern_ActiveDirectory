@@ -1,11 +1,10 @@
+https://img.shields.io/bower/l/Bootstrap?style=plastic
+
 # ModernActiveDirectory
 
 ![Logo](Pictures/Logo.png "Logo")
 
 ModernActiveDirectory is Powershell Module with a new experience to give you a gloabl view of Active Directory environment.
-
-https://img.shields.io/bower/l/Bootstrap?style=plastic
-Mozilla Add-on:
 
 From a beautiful interactive report HTML we can :
 - [ ] View key indicators
