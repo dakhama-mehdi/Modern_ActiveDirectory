@@ -4,7 +4,7 @@
 
 ![Logo](Pictures/Logo.png "Logo")
 
-New experience to give you an overview of Active Directory environment from beautiful interactive HTML report
+New experience given an overview of Active Directory environment from a beautiful interactive HTML report
 ### What can i do with : 
 - [ ] View key indicators
 - [ ] Inventory of Active Directory
