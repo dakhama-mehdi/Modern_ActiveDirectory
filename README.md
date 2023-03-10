@@ -73,7 +73,7 @@ Get-Help Get-ADModernReport -Detailed
 ## Credits
 ### MVP Members 
 - [Przemyslaw Klys](https://www.linkedin.com/in/pklys/) author of PSWriteHTML - without him this wouldn't be possible [Github](https://github.com/EvotecIT/PSWriteHTML)
-- [Brad Wyatt](https://www.thelazyadministrator.com/) author of inspired project - without him this wouldn't be possible [Github](https://github.com/bwya77)
+- [Brad Wyatt](https://www.thelazyadministrator.com/) author of inspired project [Github](https://github.com/bwya77)
 - [Thirrey DEMAN-BARCELO](https://www.experts-exchange.com/members/DEMAN-BARCELOMVP-Thierry.html)
 - [Florian Burnel](https://www.it-connect.fr/author/florian/)
 ### Other members
