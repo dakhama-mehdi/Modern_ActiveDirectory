@@ -31,6 +31,7 @@ Install-Module -Name ModernActiveDirectory -Scope Currentuser
 Update-Module -Name ModernActiveDirectory
 ```
 #### Usage
+- [ ] Quick run
 ```Powershell
 Get-ADModernReport
 ```
