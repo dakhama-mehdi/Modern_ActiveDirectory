@@ -15,7 +15,8 @@ New experience given an overview of Active Directory environment from a beautifu
 - [ ] No sensitive informations is exposed 
 - [x] Work in corporate of any size :tada:
 
-### Get New AD Look [Fast, Easy, Secure] just from one command
+### Convert your AD to something Secure, Easy and Fast with ONE command
+
 ![portail](https://user-images.githubusercontent.com/49924401/224164475-b18b4ce6-f4b2-4f3a-8dcc-a07b9b49ddf0.gif)
 #### Installation 
 > #####  For all users (require admin privilege)
@@ -32,11 +33,12 @@ Update-Module -Name ModernActiveDirectory
 ```
 #### Usage
 - [ ] Quick run
+##### ALL you Need ! One command
 ```Powershell
 Get-ADModernReport
 ```
-- [ ]  By default the number of objects listed is limited to 200 / if company have more than 200 objects by category use -illimiteddsearch
-- [ ]  The report is saved on %appdata%\Temp current user by default / to change the directory use the parameters -Savepatch
+- [ ]  By default the number of objects listed is limited to 200 / if company have more than 200 objects by category use -illimitedsearch
+- [ ]  The report is saved on %appdata%\Temp  / to change the directory use the parameters -Savepatch
 
 ```Powershell
 Get-ADModernReport -illimitedsearch -SavePath C:\MyFolder
