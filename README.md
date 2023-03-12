@@ -5,6 +5,11 @@
 ![Logo](Pictures/Logo.png "Logo")
 
 New experience given an overview of Active Directory environment from a beautiful interactive HTML report
+
+### Convert your AD to something Secure, Easy and Fast with ONE command
+
+![portail](https://user-images.githubusercontent.com/49924401/224164475-b18b4ce6-f4b2-4f3a-8dcc-a07b9b49ddf0.gif)
+
 ### What can i do with : 
 - [ ] View key indicators
 - [ ] Inventory of Active Directory
@@ -15,9 +20,6 @@ New experience given an overview of Active Directory environment from a beautifu
 - [ ] No sensitive informations is exposed 
 - [x] Work in corporate of any size :tada:
 
-### Convert your AD to something Secure, Easy and Fast with ONE command
-
-![portail](https://user-images.githubusercontent.com/49924401/224164475-b18b4ce6-f4b2-4f3a-8dcc-a07b9b49ddf0.gif)
 #### Installation 
 > #####  For all users (require admin privilege)
 ```Powershell
