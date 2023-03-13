@@ -57,7 +57,7 @@ Get-Help Get-ADModernReport -Detailed
 ### Dependencies
 - [x] RSAT if run externally from Windows 10 machine
 - [ ] Powershell 5.1 or more
-- [ ] PSWriteHTML Module (if use offline install)
+- [ ] PSWriteHTML Module (Automatically installed)
 ### Variables
 | parameters  | Description |
 | ------------- | ------------- |
