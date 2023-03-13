@@ -85,3 +85,9 @@ Get-Help Get-ADModernReport -Detailed
 Matthiew Souin, Hatira Mahmoud, Sarouti Zouhair
 ### Thanks 
 ![Credits](Pictures/Credits1.png "Credits")
+
+## Security
+
+#### Using the following architecture, We can improve security by tracking who has sent an AD request, as all users must now authenticate, and can only see the information that we have allowed them
+
+![Archi_secu](Docs/Archi_secu.png "Archi_secu")
