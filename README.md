@@ -18,7 +18,7 @@ New experience given an overview of Active Directory environment from a beautifu
 - [ ] Support all Active directory languages
 - [ ] Faster report building
 - [ ] No sensitive informations is exposed 
-- [ ] take control over the information displayed
+- [ ] Take control over the information displayed
 - [x] Work in corporate of any size :tada:
 
 #### Installation 
