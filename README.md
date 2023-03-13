@@ -88,6 +88,6 @@ Matthiew Souin, Hatira Mahmoud, Sarouti Zouhair
 
 ## Security
 
-#### Using the following architecture, We can improve security by tracking who has sent an AD request, as all users must now authenticate, and can only see the information that we have allowed them
+#### Using the following architecture, We can improve security by tracking who has sent an AD request, because we force allowed users to authenticatefrom AD. 
 
-![Archi_secu](Docs/Archi_secu.png "Archi_secu")
+![Archi_secu](Docs/Archi_secu1.png "Archi_secu")
