@@ -6,7 +6,7 @@
 
 New experience given an overview of Active Directory environment from a beautiful interactive HTML report
 
-### Just one command to convert your AD to something Secure, Easy and Fast 
+### Change your AD with one command to something Secure, Easy and Fast 
 
 ![portail](https://user-images.githubusercontent.com/49924401/224164475-b18b4ce6-f4b2-4f3a-8dcc-a07b9b49ddf0.gif)
 
@@ -88,6 +88,6 @@ Matthiew Souin, Hatira Mahmoud, Sarouti Zouhair
 
 ## Security
 
-#### Using the following architecture, We can improve security by tracking who has sent an AD request, because we force allowed users to authenticatefrom AD. 
+#### We can improve security by using the following design and tracking who has sent an AD request, because only authotified users can show allowed informations.
 
 ![Archi_secu](Docs/Archi_secu1.png "Archi_secu")
