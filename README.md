@@ -86,8 +86,10 @@ Matthiew Souin, Hatira Mahmoud, Sarouti Zouhair
 ### Thanks 
 ![Credits](Pictures/Credits1.png "Credits")
 
-French article : [Link](https://www.it-connect.fr/une-vue-densemble-de-votre-annuaire-en-un-clin-doeil-avec-modern-active-directory/)
-English article : 
+French article : [Link](https://www.it-connect.fr/une-vue-densemble-de-votre-annuaire-en-un-clin-doeil-avec-modern-active-directory/).
+English article : [Link Brad](https://www.thelazyadministrator.com/2023/03/19/modern-active-directory-an-update-to-pshtml-ad-report/)
+                  [Link_Thirrey_Expertexchange](https://www.experts-exchange.com/articles/37935/Modern-Active-Directory-part-1-2.html)
+                
 
 ## Security
 
