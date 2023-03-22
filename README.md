@@ -76,8 +76,8 @@ Get-Help Get-ADModernReport -Detailed
 
 Two specific values are added to the “Days Until Password Expired” column:
 
--999: means that the user has never logged in.
--998 : means that the user will have to change without CDM at the next connection.
+* -999: means that the user has never logged in.
+* -998 : means that the user will have to change without CDM at the next connection.
 ![Codes](Pictures/codes.png "Codes")
 
 ## Credits
