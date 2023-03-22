@@ -39,8 +39,8 @@ Update-Module -Name ModernActiveDirectory
 ```Powershell
 Get-ADModernReport
 ```
-- [ ]  By default the number of objects listed is limited to 200 / if company have more than 200 objects by category use -illimitedsearch
-- [ ]  The report is saved on %appdata%\Temp  / to change the directory use the parameters -Savepatch
+- [ ]  By default the number of objects listed is limited to 300 for testing / you can bypass by using -illimitedsearch
+- [ ]  The report is saved on %appdata%\Temp. To change the directory use the parameters -Savepatch
 
 ```Powershell
 Get-ADModernReport -illimitedsearch -SavePath C:\MyFolder
@@ -88,7 +88,7 @@ Matthiew Souin, Hatira Mahmoud, Sarouti Zouhair
 
 * French article : [Link](https://www.it-connect.fr/une-vue-densemble-de-votre-annuaire-en-un-clin-doeil-avec-modern-active-directory/).
 * English article : [Link Brad](https://www.thelazyadministrator.com/2023/03/19/modern-active-directory-an-update-to-pshtml-ad-report/)
-* [Link_Thirrey_Expertexchange](https://www.experts-exchange.com/articles/37935/Modern-Active-Directory-part-1-2.html)
+* Doc : [Link_Thirrey_Expertexchange](https://www.experts-exchange.com/articles/37935/Modern-Active-Directory-part-1-2.html)
                 
 
 ## Security
