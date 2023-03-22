@@ -1,11 +1,8 @@
 ![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/ModernActivedirectory) ![Language](https://img.shields.io/badge/Powershell-100.0%25-blue)  ![Bower](https://img.shields.io/bower/l/Bootstrap?style=plastic) ![Plateform](https://img.shields.io/badge/Platform-Windows-brightgreen) ![Download](https://img.shields.io/badge/Downoad%20ModerActiveDirectory-500-orange)
 
 # ModernActiveDirectory 
-
-![Logo](Pictures/Logo.png "Logo")
-
 New experience (Safe, Easy, Fast) given an overview of Active Directory environment from a beautiful interactive HTML report
-
+![Logo](Pictures/Logo.png "Logo")
 ### Get new AD look from one command less than one minute
 
 ![portail](https://user-images.githubusercontent.com/49924401/224164475-b18b4ce6-f4b2-4f3a-8dcc-a07b9b49ddf0.gif)
