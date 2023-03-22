@@ -15,6 +15,7 @@ New experience (Safe, Easy, Fast) given an overview of Active Directory environm
 - [ ] Advanced searches in a simple way
 - [ ] Support all Active directory languages
 - [ ] Faster report building
+- [ ] Get daily report
 - [ ] No sensitive informations is exposed 
 - [ ] Take control over the information displayed
 - [x] Work in corporate of any size :tada:
