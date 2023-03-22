@@ -86,6 +86,9 @@ Matthiew Souin, Hatira Mahmoud, Sarouti Zouhair
 ### Thanks 
 ![Credits](Pictures/Credits1.png "Credits")
 
+French article : [Link](https://www.it-connect.fr/une-vue-densemble-de-votre-annuaire-en-un-clin-doeil-avec-modern-active-directory/)
+English article : 
+
 ## Security
 
 #### We can improve security by using the following design and tracking who has sent an AD request, because only authotified users can show allowed informations.
