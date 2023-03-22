@@ -2,6 +2,7 @@
 
 # ModernActiveDirectory 
 New experience (Safe, Easy, Fast) given an overview of Active Directory environment from a beautiful interactive HTML report
+
 ![Logo](Pictures/Logo.png "Logo")
 ### Get new AD look from one command less than one minute
 
