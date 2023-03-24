@@ -20,7 +20,7 @@ New experience (Safe, Easy, Fast) given an overview of Active Directory environm
 - [ ] Take control over the information displayed
 - [x] Work in corporate of any size :tada:
 
-#### Installation 
+#### Installation Online
 > #####  For all users (require admin privilege)
 ```Powershell
 Install-Module -Name ModernActiveDirectory
@@ -32,6 +32,18 @@ Install-Module -Name ModernActiveDirectory -Scope Currentuser
 #### Updates
 ```Powershell
 Update-Module -Name ModernActiveDirectory
+```
+#### Offline Installation
+##### Download the Zip file from release and extract it, Copy the three folders on powershell modules path.
+##### By default for all users :
+##### C:\Program Files\WindowsPowerShell\Modules
+
+##### For current user (not require admin privilege)
+##### Documents\WindowsPowerShell\Modules
+
+#####run after : 
+```Powershell
+Import-Module -Name ModernActiveDirectory
 ```
 #### Usage
 - [ ] Quick run
