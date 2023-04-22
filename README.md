@@ -1,4 +1,4 @@
-![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/ModernActivedirectory) ![Language](https://img.shields.io/badge/Powershell-100.0%25-blue)  ![Bower](https://img.shields.io/bower/l/Bootstrap?style=plastic) ![Plateform](https://img.shields.io/badge/Platform-Windows-brightgreen) ![Download](https://img.shields.io/badge/Downoad%20ModerActiveDirectory-2K-orange)
+![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/ModernActivedirectory) ![Language](https://img.shields.io/badge/Powershell-100.0%25-blue)  ![Bower](https://img.shields.io/bower/l/Bootstrap?style=plastic) ![Plateform](https://img.shields.io/badge/Platform-Windows-brightgreen) ![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/ModernActiveDirectory?color=orange&label=Download%20Powershell%20Gallery)
 
 # ModernActiveDirectory 
 New experience (Safe, Easy, Fast) given an overview of Active Directory environment from a beautiful interactive HTML report
