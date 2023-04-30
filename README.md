@@ -113,3 +113,4 @@ Matthiew Souin, Hatira Mahmoud, Sarouti Zouhair
 #### We can improve security by using the following design and tracking who has sent an AD request, because only authotified users can show allowed informations.
 
 ![Archi_secu](Docs/Archi_secu1.png "Archi_secu")
+.
