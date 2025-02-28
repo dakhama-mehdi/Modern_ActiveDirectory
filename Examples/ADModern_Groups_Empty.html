@@ -1,0 +1,971 @@
+﻿<!DOCTYPE html>
+ <html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1" name="viewport"><meta content="2025-02-28 10:37:48" name="revised"><title>AD_ModernReport</title><link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" as="style" type="text/css" rel="stylesheet preload prefetch"/><link comment="font-awesome" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script comment="jquery" type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script><link href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><link href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script type="text/javascript" src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script><script type="text/javascript" src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script><script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.13.5/sorting/datetime-moment.js"></script><link comment="animation-toolkit" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><link href="https://cdn.datatables.net/buttons/2.4.0/css/buttons.dataTables.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.0/js/dataTables.buttons.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script><script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.0/js/buttons.html5.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script><link href="https://cdn.datatables.net/datetime/1.5.0/css/dataTables.dateTime.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script type="text/javascript" src="https://cdn.datatables.net/datetime/1.5.0/js/dataTables.dateTime.min.js"></script><link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script><link href="https://cdn.datatables.net/searchbuilder/1.5.0/css/searchBuilder.dataTables.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script type="text/javascript" src="https://cdn.datatables.net/searchbuilder/1.5.0/js/dataTables.searchBuilder.min.js"></script><link comment="font-materialicon" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><style type="text/css">body {    font-family: 'Roboto Condensed', sans-serif;    font-size: 8pt;    margin: 0px;}input {    font-size: 8pt;}.main-section {    margin-top: 55px;}</style><style type="text/css">td:first-child {    white-space: nowrap;}thead input {    width: 100%;    box-sizing: border-box;    padding: -3px;}td::before, td.sorting_1::before {    color: #007bff !important;}tfoot input {    width: 100%;    box-sizing: border-box;    padding: -3px;}div.dataTables_wrapper {    margin: 5px;}</style><noscript><style type="text/css">table {
+    border-collapse: collapse;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+table td {
+    border-width: 1px;
+    padding: 4px;
+    text-align: left;
+    border-top: 1px solid #ddd;
+}
+
+table thead th {
+    text-align: center;
+    font-weight: bold;
+    padding: 4px 17px;
+    border-bottom: 1px solid #111;
+    background-color: white;
+    color: black;
+}
+
+table tfoot th {
+    text-align: center;
+    font-weight: bold;
+    padding: 4px 17px;
+    border-top: 1px solid #111;
+    background-color: white;
+    color: black;
+}
+
+table tr:nth-of-type(odd) {
+    background-color: #F6F6F5;
+}
+
+table tr:nth-of-type(even) {
+    background-color: white;
+}
+
+table td, table th {
+    border: 1px solid black;
+}</style></noscript><style type="text/css">div.dt-button-collection {    position: relative;    margin-top: 10px !important;    width: auto !important;    margin-bottom: 10px !important;}</style><style type="text/css">.defaultPanel {    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);    transition: 0.3s;    border-radius: 5px;    margin: 5px;}</style><style type="text/css">.defaultSection {    flex-direction: column;    border: 1px solid #bbbbbb;    padding-bottom: 0px;    margin: 5px;    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);    transition: 0.3s;    border-radius: 5px;}.defaultSectionHead {    display: flex;    justify-content: center;    padding: 5px;    margin: 0px 0px 0px 0px;    font-weight: bold;    background-color: #00bfff;    color: #ffffff;}</style><style type="text/css">.overflowHidden {    overflow: hidden;    overflow-x: hidden;    overflow-y: hidden;}.flexParent {    display: flex;    justify-content: space-between;}.flexParentInvisible {    display: flex;    justify-content: space-between;}.flexElement {    flex-basis: 100%;    max-width: 100%;}.flexPanel {    flex-basis: 100%;    max-width: 100%;}.flex-grid {    display: flex;}</style><style type="text/css" comment="navigation-menu">/* navigation-menu-start */
+/*
+   Plugin: Codehim Dropdown (Multilevel Dropdowns to Off Canvas)
+   Requires: jQuery 1.7 or higher
+   Author: Asif Mughal
+   GitHub: https://github.com/CodeHimBlog
+   URL: https://www.codehim.com
+   License: MIT License
+   Copyright (c) 2018 - Asif Mughal
+*/
+
+.dropdown-items, .dropdown-heading, .menu-items, .menu-subitems {
+	margin: 0;
+	padding: 0
+}
+
+.codehim-dropdown {
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 300;
+	font-smooth: antialiased;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.codehim-dropdown {
+	width: 100%;
+	height: 50px;
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
+	transition: 0s;
+}
+
+.codehim-dropdown.sticky {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999;
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Global Style for Codehim Dropdowns */
+
+.codehim-dropdown a {
+	outline: 0;
+}
+
+.has-child span.parent+ul, .menu-items {
+	background: #fff;
+	color: black;
+	list-style: none;
+	display: none;
+}
+
+.dropdown-heading:after {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	display: inline-block;
+	content: "\f107";
+}
+
+.dropdown-heading.active:after {
+	transform: rotateZ(180deg);
+	-webkit-transform: rotateZ(180deg);
+	-moz-transform: rotateZ(180deg);
+}
+
+.dropdown-heading, .dropdown-heading.active, .dropdown-heading:hover, .dropdown-heading:after, .dropdown-heading.active:after {
+	transition: all .3s ease-in-out;
+	-webkit-transition: all .3s ease-in-out;
+	-moz-transition: all .3s ease-in-out;
+}
+
+/* Home Link Style */
+
+li.home-link a {
+	text-decoration: none;
+	/* color: rgba(255, 255, 255, 0.7); */
+	text-align: center;
+	font-size: 20px;
+	display: inline-block;
+	width: 45px;
+	height: 50px;
+	background: rgba(0, 0, 0, 0.3);
+	line-height: 50px;
+}
+
+/* Dim background effect */
+
+.dim-overlay {
+	display: none;
+}
+
+.dim-overlay:before {
+	content: "";
+	background-color: rgba(0, 0, 0, .5);
+	height: 100%;
+	/* for zombies browsers */
+	height: 100vh;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	overflow: hidden;
+	z-index: 2;
+}
+
+.menu-items li a {
+	display: block;
+	padding: 10px;
+	color: #444;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 13px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.has-child span.parent:hover, .menu-items li a:hover {
+	background: #e0e0e0;
+}
+
+.has-child span.parent:after {
+	font-family: "Font Awesome 5 Free";
+	float: right;
+	font-weight: 900;
+	content: "\f107";
+	padding-top: 2px;
+}
+
+.main-links {
+	text-decoration: none;
+}
+
+/* Codehim Dropdowns Mobile View */
+
+@media only screen and (max-width: 480px) {
+	.codehim-dropdown {
+		position: relative;
+		font-size: 14px;
+	}
+	.codehim-dropdown .icon {
+		margin: 0 10px 0 5px;
+		font-size: 16px;
+	}
+	/* The Off Canvas Menu */
+	.dropdown-items {
+		height: 100%;
+		/* for zombies browsers */
+		height: 100vh;
+		display: none;
+		overflow: auto;
+		box-sizing: border-box;
+		position: fixed;
+		top: 0;
+		z-index: 999;
+	}
+	.menu-items {
+		background: #fff;
+	}
+	.menu-items li a {
+		padding-left: 15px;
+		background: transparent;
+	}
+	.dropdown-items li {
+		border-bottom: 1px dotted rgba(255, 255, 255, 0.16);
+		overflow: hidden;
+	}
+	/* hamburger menu icon to reveal off canvas menu on mobile devices */
+	.hamburger {
+		position: absolute;
+		width: 32px;
+		height: 32px;
+		top: 8px;
+		border-radius: 50%;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+		text-align: center;
+		color: rgba(255, 255, 255, 0.8);
+		font-size: 20px;
+		line-height: 32px;
+	}
+	.hamburger:hover {
+		background: rgba(0, 0, 0, 0.15);
+	}
+	.hamburger:after {
+		font-family: "Font Awesome 5 Free";
+		content: "\f0c9";
+		font-weight: 900;
+	}
+	.hamburger.left {
+		left: 10px;
+	}
+	.hamburger.right {
+		right: 10px;
+	}
+	.dropdown-items .parent+ul {
+		background: #fff;
+		margin: 0;
+		box-sizing: border-box;
+		display: none;
+	}
+	/* Sub Menu list item */
+	.dropdown-items .parent+ul li a {
+		padding-left: 30px;
+	}
+	.main-links, .dropdown-heading {
+		display: block;
+		padding: 15px;
+		/* color: rgba(255, 255, 255, 0.8); */
+		cursor: pointer;
+	}
+	.main-links:hover, .dropdown-heading:hover {
+		background: rgba(0, 0, 0, 0.15);
+		color: #fff;
+	}
+	.dropdown-heading:after {
+		margin-left: 8px;
+		font-family: "Font Awesome 5 Free";
+		font-weight: 900;
+		display: inline-block;
+		content: "\f107";
+	}
+	/* Sub Dropdowns heading */
+	.has-child span.parent {
+		padding: 15px;
+		border-bottom: 1px solid #e0e0e0;
+		display: block;
+		background: transparent;
+	}
+	.has-child span.parent:after {
+		content: "\f107";
+		margin-right: 15px;
+		font-weight: 700;
+	}
+}
+
+/* Codehim Dropdowns PC View */
+
+@media only screen and (min-width: 480px) {
+	.menu-items {
+		box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+		/* Setting thru PowerShell
+		width: 150px;
+		*/
+		position: absolute;
+		left: 2px;
+	}
+	.menu-items li {}
+	.dropdown-items {
+		list-style: none;
+	}
+	/* A list of main items */
+	.dropdown-items li {
+		display: inline;
+		position: relative;
+	}
+	a.main-links, .dropdown-heading {
+		cursor: pointer;
+		/* color: rgba(255, 255, 255, 0.7); */
+		display: inline-block;
+		padding: 6px;
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+		font-weight: 400;
+		text-decoration: none;
+	}
+	.main-links:hover, .dropdown-heading.active, .dropdown-heading:hover {
+		color: #fff;
+	}
+	.dropdown-heading:after {
+		margin-left: 8px;
+	}
+	.has-child span.parent:after {
+		content: "\f105";
+	}
+	/* Multilevel Dropdown */
+	.has-child {
+		position: relative;
+	}
+	/* The visible heading (parent) for multilevel dropdown items */
+	.has-child span.parent {
+		display: inline-block;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 10px;
+		font-size: 13px;
+		font-weight: 400;
+	}
+	.has-child ul {
+		position: absolute;
+		display: block;
+		/* Setting thru PowerShell
+		width: 140px;
+		*/
+		left: 100%;
+		z-index: 3;
+		top: 0;
+		box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+		display: none;
+	}
+}
+
+/* Logo functionality, may need different placement */
+
+.dropdown-logo {
+	list-style: none;
+}
+
+.home-logo img {
+	width: auto;
+	height: 50px;
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	padding-right: 15px;
+}
+/* navigation-menu-end */
+</style><style type="text/css" comment="navigation-menu">/* navigation-menu-start */@media only screen and (min-width: 480px) {.has-child ul {    width: 200px;}.menu-items {    width: 200px;}}/* navigation-menu-end */</style><style type="text/css">.tabsWrapper {    text-align: center;    font-family: 'Roboto', sans-serif !important;    text-transform: uppercase;}[data-tabs] {    display: flex;    margin: 5px 5px 5px 5px;    padding: 0px;    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);    border-radius: 5px;    justify-content: center;    flex-wrap: wrap;}[data-tabs]>* {    cursor: pointer;    padding: 10px 20px;    flex-grow: 1;    flex-shrink: 1;    flex-basis: auto;}[data-tabs] .active {    background: #008080;    color: #fff;    border-radius: 5px;}[data-panes]>* {    display: none;}[data-panes]>.active {    display: block;}</style></head><body><nav class="codehim-dropdown evotec-navigation"><ul class="dropdown-items"><li class="home-link"><a href="ADModern.html"><span class="icon"><i class="fas fa-home fa-fw"></i></span></a></li><li><span class="dropdown-heading"><span style="padding-right:5px"><span class="icon"><i class="far fa-address-book fa-fw" style="color:#000000"></i></span></span>Domains</span><ul class="menu-items"><li><a href="ADModern_Groups.html"><span style="padding-right:5px"><span class="icon"><i class="fas fa-users fa-fw"></i></span></span>Groups</a></li><li><a href="ADModern_Groups_Empty.html"><span style="padding-right:5px"><span class="icon"><i class="fas fa-users fa-fw"></i></span></span>Groups_Empty</a></li><li><a href="ADModern_OU.html"><span style="padding-right:5px"><span class="icon"><i class="zmdi zmdi-folder zmdi-hc-fw"></i></span></span>OU</a></li><li><a href="ADModern_GPO.html"><span style="padding-right:5px"><span class="icon"><i class="fas fa-scroll fa-fw"></i></span></span>Group Policy</a></li><li><a href="ADModern_Printers.html"><span style="padding-right:5px"><span class="icon"><i class="fas fa-print fa-fw"></i></span></span>Printers</a></li></ul></li><li><span class="dropdown-heading"><span style="padding-right:5px"><span class="icon"><i class="fas fa-sitemap fa-fw"></i></span></span>Objects</span><ul class="menu-items"><li><a href="ADModern_Users.html"><span style="padding-right:5px"><span class="icon"><i class="fas fa-user-tie fa-fw"></i></span></span>Users</a></li><li><a href="ADModern_Computers.html"><span style="padding-right:5px"><span class="icon"><i class="fas fa-laptop fa-fw"></i></span></span>Computers</a></li><li><a href="ADModern_Gmsa.html"><span style="padding-right:5px"><span class="icon"><i class="fas fa-robot fa-fw"></i></span></span>Gmsa</a></li></ul></li><li><span class="dropdown-heading"><span style="padding-right:5px"><span class="icon"><i class="far fa-chart-bar fa-fw"></i></span></span>About</span><ul class="menu-items"><li><a href="ADModern_Resume.html"><span style="padding-right:5px"><span class="icon"><i class="fas fa-chart-pie fa-fw"></i></span></span>Resume</a></li><li class="has-child"><span class="parent"><span style="padding-right:5px"><span class="icon"><i class="fas fa-address-book fa-fw"></i></span></span>Documentation</span><ul class="menu-subitems"><li><a href="https://www.thelazyadministrator.com/2023/03/19/modern-active-directory-an-update-to-pshtml-ad-report/"><span style="padding-right:5px"></span>English</a></li><li><a href="https://www.it-connect.fr/une-vue-densemble-de-votre-annuaire-en-un-clin-doeil-avec-modern-active-directory/"><span style="padding-right:5px"></span>French</a></li></ul></li></ul></li><li><span class="dropdown-heading"><span style="padding-right:5px"></span>Report date: 02/28/2025 10:37:48</span><ul class="menu-items"></ul></li></ul><div class="home-logo"><a><img title="PSWriteHTML Logo" alt="PSWriteHTML Logo" src="https://raw.githubusercontent.com/dakhama-mehdi/Modern_ActiveDirectory/main/Pictures/SmallLogo.png"></a></div><script>$(document).ready(function () {    $('.codehim-dropdown').CodehimDropdown({
+    "skin":  {
+                 "background-color":  "#808080",
+                 "color":  "#000000"
+             },
+    "skinHome":  {
+                     "background-color":  "#808080",
+                     "color":  "#0088dc"
+                 }
+});});</script></nav><div class="main-section"><div class="tabsWrapper"><div class="tabsSlimmer"><div data-tabs="true"><div id="Tab-0x8ezc91" class="active"><span class="fas fa-print"></span>&nbsp;<span>Groups Without Members</span></div></div></div></div><div data-panes="true"><div id="Tab-0x8ezc91-Content" class="active"><div class="flexParentInvisible flexElement overflowHidden defaultSectionContentInvisible" style="flex-basis:100%"><div class="flexParent flexElement overflowHidden defaultSectionContentInvisible"><div id="anchor-a15kt70" class="flexPanel overflowHidden defaultPanel"><script>                $(document).ready(function() {
+                    $.fn.dataTable.moment( 'L' );
+                    
+                    
+                    
+                    //  Table code
+                    var table = $('#DT-DjVWUYyE').DataTable(
+                        {
+    "dom":  "Bfrtip",
+    "searchFade":  false,
+    "scrollCollapse":  false,
+    "ordering":  true,
+    "order":  [
+
+              ],
+    "rowGroup":  "",
+    "info":  true,
+    "procesing":  true,
+    "select":  true,
+    "searching":  true,
+    "stateSave":  true,
+    "paging":  true,
+    "pagingType":  [
+                       "full_numbers"
+                   ],
+    "lengthMenu":  [
+                       [
+                           15,
+                           25,
+                           50,
+                           100,
+                           -1
+                       ],
+                       [
+                           15,
+                           25,
+                           50,
+                           100,
+                           "All"
+                       ]
+                   ],
+    "language":  {
+
+                 },
+    "buttons":  [
+                    {
+                        "extend":  "copyHtml5"
+                    },
+                    {
+                        "extend":  "excelHtml5",
+                        "exportOptions":  {
+                                              "format":      {
+        body: function (data, row, column, node) {
+            data = $('<p>' + data + '</p>').text(); return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
+        }
+    }
+                                          }
+                    },
+                    {
+                        "extend":  "csvHtml5",
+                        "text":  "CSV",
+                        "charset":  "utf-8",
+                        "extension":  ".csv",
+                        "fieldSeparator":  ";",
+                        "bom":  true
+                    },
+                    {
+                        "extend":  "pdfHtml5",
+                        "pageSize":  "A3",
+                        "orientation":  "landscape"
+                    },
+                    {
+                        "extend":  "pageLength"
+                    },
+                    {
+                        "extend":  "searchBuilder"
+                    }
+                ],
+    "responsive":  {
+                       "details":  {
+                                       "type":  "inline"
+                                   }
+                   }
+}
+                    );
+                    
+                    
+                    
+                });</script><div class="flexElement overflowHidden"><table width="100%" id="DT-DjVWUYyE" class="dataTables display compact"><thead><tr><th>Name</th><th>Type</th><th>Managed By</th><th>Created</th><th>Protected from Deletion</th></tr></thead><tbody><tr><td>Ordinateurs du domaine</td><td>Security</td><td></td><td>2024/01/23</td><td>False</td></tr><tr><td>Utilisateurs du domaine</td><td>Security</td><td></td><td>2024/01/23</td><td>False</td></tr><tr><td>Invit&#233;s du domaine</td><td>Security</td><td></td><td>2024/01/23</td><td>False</td></tr><tr><td>Serveurs RAS et IAS</td><td>Security</td><td></td><td>2024/01/23</td><td>False</td></tr><tr><td>Groupe de r&#233;plication dont le mot de passe RODC est autoris&#233;</td><td>Security</td><td></td><td>2024/01/23</td><td>False</td></tr><tr><td>Contr&#244;leurs de domaine d’entreprise en lecture seule</td><td>Security</td><td></td><td>2024/01/23</td><td>False</td></tr><tr><td>Contr&#244;leurs de domaine clonables</td><td>Security</td><td></td><td>2024/01/23</td><td>False</td></tr><tr><td>Protected Users</td><td>Security</td><td></td><td>2024/01/23</td><td>False</td></tr><tr><td>DnsAdmins</td><td>Security</td><td></td><td>2024/01/23</td><td>False</td></tr><tr><td>DnsUpdateProxy</td><td>Security</td><td></td><td>2024/01/23</td><td>False</td></tr><tr><td>ADSyncOperators</td><td>Security</td><td></td><td>2024/11/29</td><td>False</td></tr><tr><td>ADSyncBrowse</td><td>Security</td><td></td><td>2024/11/29</td><td>False</td></tr><tr><td>ADSyncPasswordSet</td><td>Security</td><td></td><td>2024/11/29</td><td>False</td></tr></tbody><tfoot><tr><th>Name</th><th>Type</th><th>Managed By</th><th>Created</th><th>Protected from Deletion</th></tr></tfoot></table></div></div></div></div></div></div></div><footer><script type="text/javascript" comment="navigation-menu">/* navigation-menu-start */
+/*  Plugin: Codehim Dropdown (Multilevel Dropdowns to Off Canvas)
+ *   Requires: jQuery 1.7 or higher
+ *   Author: Asif Mughal
+ *   GitHub: https://github.com/CodeHimBlog
+ *   URL: https://www.codehim.com
+ *   License: MIT License
+ *   Copyright (c) 2018 - Asif Mughal
+ */
+(function ($) {
+	$.fn.CodehimDropdown = function (options) {
+		var setting = $.extend({
+			skin: {
+				"background-color": "#161B22",
+				"color": 'green'
+			}, //skin color for menubar and drawer
+			skinHome: {
+				"background-color": "#161B22",
+				"color": 'red'
+			}, //skin color for home icon and background
+			slideUpOther: true, //close other opened dropdowns if user trigger new one
+			sticky: true, //fixed menubar on top, false to static
+			/* Some settings for mobile devices (small screen) when horizontal menubar converted into offcanvas menu */
+			listAnimation: "fadeInUp", //Animate list items when revealed
+			subListAnimation: "fadeInUp", //Animate sub items when revealed
+			//@info: any animation can be used, put the name of animation class name from animate.css in the above options
+			dimOverlay: true, //possible options true or false
+			offCanvasSpeed: "default", //possible options are default, fast, faster, slow and slower
+			offCanvasDirection: "left", //possible options are left and right
+			offCanvasWidth: 290, //the width of drawer on mobile devices in pixels
+			onOffCanvasOpen: function () { }, //your custom function to execute when menu open on mobile devices
+			onOffCanvasClose: function () { }, //your custom function to execute when menu closed
+
+		}, options);
+
+		return this.each(function () {
+
+			var target = $(this);
+			var devWidth = $(window).width(); //available width of the device
+			var devHeight = $(window).height(); //available height of the device
+			var dimOverlay = $div(); //creates div element for dim overlay
+			var hamburger = $div(); //creates div element for hamburger menu icon
+			var offCanvas = $(target).find(".dropdown-items"); //looks on (small screen) mobile devices
+			var homeLogo = $(target).find("li.home-link a"); // logo
+
+
+			//Applying Customization
+
+			if (setting.offCanvasDirection == "right") {
+				$(offCanvas).css({
+					'right': -(setting.offCanvasWidth),
+					'display': 'block',
+				});
+
+				$(hamburger).addClass("hamburger right");
+			} else {
+				$(offCanvas).css({
+					'left': -(setting.offCanvasWidth),
+					'display': 'block',
+				});
+				$(hamburger).addClass("hamburger left");
+			}
+
+			if (setting.dimOverlay == true) {
+				$(dimOverlay).addClass("dim-overlay").insertAfter(target);
+
+			}
+
+			//$(target).addClass(setting.skin).prepend(hamburger);
+			$(target).css(setting.skin).prepend(hamburger);
+			$(offCanvas).css(setting.skin);
+			$(homeLogo).css(setting.skinHome);
+			//$(offCanvas).addClass(setting.skin);
+
+
+			//OffCanvas Speed
+			var speed = setting.offCanvasSpeed;
+			//assign values (in milliseconds) to speed
+			switch (speed) {
+				case "slow":
+					speed = 1000;
+
+					break;
+				case "slower":
+
+					speed = 2000;
+					break;
+
+				case "fast":
+
+					speed = 300;
+					break;
+
+				case "faster":
+
+					speed = 150;
+					break;
+
+				default:
+					speed = 400;
+			};
+
+			if (setting.sticky == true) {
+				$(target).addClass("sticky");
+
+				$("main").css({
+					'marginTop': 50,
+				});
+			}
+
+
+			$(".dropdown-heading").click(function () {
+
+				var thisMenu = $(this).find(" + .menu-items");
+
+				var thisList = $(thisMenu).children("li");
+
+				for (var i = 0; i < thisList.length; i++) {
+
+					$(thisList).eq(i).addClass("animated" + " " + setting.listAnimation).css({
+						'animationDelay': "0." + i + "s",
+
+					});
+
+				}
+
+
+				$(this).toggleClass("active");
+
+
+				$(thisMenu).slideToggle();
+
+
+				//close other dropdowns if opened
+
+				if (setting.slideUpOther == true) {
+
+					$(".menu-items").not(thisMenu).slideUp();
+					$(".dropdown-heading").not(this).removeClass("active");
+				}
+
+			});
+
+
+			$(".parent").on("click", function () {
+
+				var subMenu = $(this).siblings("ul");
+
+				$(subMenu).slideToggle();
+
+				var thisList = $(subMenu).children("li");
+
+				for (var i = 0; i < thisList.length; i++) {
+
+					$(thisList).eq(i).addClass("animated" + " " + setting.subListAnimation).css({
+						'animationDelay': "0." + i + "s",
+
+					});
+
+				}
+				//close other sub items if opened
+				$(".has-child ul").not(subMenu).not($(this).parents("ul")).slideUp();
+
+			});
+
+
+			// Mobile Design
+
+			$(hamburger).click(function () {
+				$(this).toggleClass("active");
+
+				openMenu();
+
+				$(dimOverlay).fadeIn();
+
+
+			});
+
+			var offCanvasDirection = setting.offCanvasDirection;
+
+			//Open Menu
+			function openMenu() {
+
+				switch (offCanvasDirection) {
+					case "left":
+						$(offCanvas).animate({
+							'left': 0,
+
+						}, speed, function () {
+
+							setting.onOffCanvasOpen();
+
+						});
+
+						break;
+
+					case "right":
+
+						$(offCanvas).animate({
+							'right': 0,
+
+						}, speed, function () {
+
+							setting.onOffCanvasOpen();
+
+						});
+
+						break;
+
+					default:
+						alert("you have missing the off canvas direction");
+
+
+				};
+
+			} //end open menu
+
+
+			//Close Menu
+			function closeMenu() {
+
+				switch (offCanvasDirection) {
+					case "left":
+						$(offCanvas).animate({
+							'left': -(setting.offCanvasWidth),
+
+						}, speed, function () {
+
+							$(hamburger).removeClass("active");
+							setting.onOffCanvasClose();
+
+						});
+
+						break;
+
+					case "right":
+
+						$(offCanvas).animate({
+							'right': -(setting.offCanvasWidth),
+
+						}, speed, function () {
+
+							$(hamburger).removeClass("active");
+							setting.onOffCanvasClose();
+
+						});
+
+						break;
+
+					default:
+						alert("you have missing the off canvas direction");
+
+
+				};
+
+			} //end close menu
+
+
+			//close menu if user click outside of it
+			$(window).click(function (e) {
+				if ($(e.target).closest('.codehim-dropdown').length) {
+					return;
+				}
+				if ($(e.target).closest(offCanvas).length) {
+					return;
+				}
+
+				//check if menu really opened
+				if ($(hamburger).hasClass("active")) {
+
+					closeMenu();
+
+				}
+
+				$(dimOverlay).fadeOut();
+
+				$(".menu-items").slideUp();
+				$(".dropdown-heading").removeClass("active");
+
+			});
+
+
+			// To get everything responsive
+
+			responsive(); //responsive on document ready
+
+			$(window).on("resize", function () {
+
+				responsive();
+
+
+			});
+
+
+			function responsive(menuItemsWidth) {
+
+				//to get the fresh device dimensions
+				devWidth = $(window).width();
+				devHeight = $(window).height();
+
+				if (devWidth > 480) {
+					$(offCanvas).width('100%');
+
+				} else {
+					$(offCanvas).width(setting.offCanvasWidth);
+				}
+
+				var mainLink = $(".dropdown-items").children("li");
+
+				//getting the width of main items shown in the menubar
+				menuItemsWidth = 0;
+				for (var w = -1; w < mainLink.length; ++w) {
+
+					menuItemsWidth += $(mainLink).eq(w).width();
+
+					if (menuItemsWidth >= devWidth && devWidth > 480) {
+						$(mainLink).eq(w).css({
+							'display': 'none',
+
+						});
+
+					} else {
+						$(mainLink).eq(w).css({
+							'display': '', //default
+
+						});
+
+					}
+
+
+				};
+
+			} //reponsive
+
+
+			function $div() {
+				return document.createElement("div");
+			}
+
+
+		});
+	};
+
+})(jQuery);
+/* navigation-menu-end */
+</script> <script type="text/javascript">var tabbis = (function () {
+    var fn = {};
+
+    var data;
+    var types = ['tab', 'pane'];
+    var type;
+    var groups = [];
+    var activeGroups = [];
+    var activeChildren = [];
+    var activeItems = [];
+    var indexGroup;
+    var indexItem;
+    var memory = [];
+
+    fn.init = function (options) {
+        data = options;
+        fn.setDefaults();
+        fn.setMemory();
+
+        groups['tab'] = document.querySelectorAll(data.tabGroup);
+        groups['pane'] = document.querySelectorAll(data.paneGroup);
+
+        for (var groupIndex = 0; groupIndex < groups['tab'].length; groupIndex++) {
+            var tabItems = groups['tab'][groupIndex].children;
+
+            for (var itemIndex = 0; itemIndex < tabItems.length; itemIndex++) {
+                tabItems[itemIndex].addEventListener('click', fn.onClick.bind(this, groupIndex, itemIndex), false);
+
+                indexGroup = groupIndex;
+                indexItem = itemIndex;
+
+                if (!fn.hasMemory()) continue;
+                fn.setNodes(groupIndex, itemIndex);
+            }
+        }
+    };
+
+    fn.onClick = function (groupIndex, itemIndex) {
+        fn.setNodes(groupIndex, itemIndex);
+        fn.setCallback(indexGroup, indexItem);
+    };
+
+    fn.setNodes = function (groupIndex, itemIndex) {
+        indexGroup = groupIndex;
+        indexItem = itemIndex;
+
+        for (var i = 0; i < types.length; i++) {
+            type = types[i];
+
+            fn.setActiveGroup();
+            fn.setActiveChildren();
+            fn.setActiveItems();
+            fn.putActiveClass();
+        }
+
+        memory[groupIndex] = [];
+        memory[groupIndex][itemIndex] = true;
+
+        try {
+            localStorage.setItem('tabbis', JSON.stringify(memory));
+        } catch (e) {
+            console.log('Tabs local storage failed. Most likely IE in use.')
+        }
+    };
+
+    //fn.hasMemory = function () {
+    //    if (typeof memory === 'undefined') return;
+    //    if (typeof memory[indexGroup] === 'undefined') return;
+    //    if (typeof memory[indexGroup][indexItem] === 'undefined') return;
+    //    if (memory[indexGroup][indexItem] !== true) return;
+    //    return true;
+    //};
+
+    fn.hasMemory = function () {
+        // https://stackoverflow.com/questions/41902495/javascript-multidimensional-array-is-valid
+
+        if (typeof memory === 'undefined') return;
+        if (typeof memory[indexGroup] === 'undefined') return;
+        if (memory[indexGroup] === null) return;
+        if (typeof memory[indexGroup][indexItem] === 'undefined') return;
+        if (memory[indexGroup][indexItem] === null) return;
+        if (memory[indexGroup][indexItem] !== true) return;
+        return true;
+    };
+
+    fn.setMemory = function () {
+        try {
+            if (localStorage.getItem('tabbis') === null) return;
+            if (localStorage.getItem('tabbis').length == 0) return;
+
+            memory = Object.values(JSON.parse(localStorage.getItem('tabbis')));
+        } catch (e) {
+            console.log('Tabs local storage failed. Most likely IE in use.')
+        }
+    };
+
+    fn.putActiveClass = function () {
+        for (var i = 0; i < activeChildren[type].length; i++) {
+            activeChildren[type][i].classList.remove(data[type + 'Active']);
+        }
+
+        activeItems[type].classList.add(data[type + 'Active']);
+    };
+
+    fn.setDefaults = function () {
+        for (var i = 0; i < types.length; i++) {
+            type = types[i];
+
+            fn.setOption(type + 'Group', '[data-' + type + 's]');
+            fn.setOption(type + 'Active', 'active');
+        }
+    };
+
+    fn.setOption = function (key, value) {
+        data = data || [];
+        data[key] = data[key] || value;
+    };
+
+    fn.setActiveGroup = function () {
+        activeGroups[type] = groups[type][indexGroup];
+    };
+
+    fn.setActiveChildren = function () {
+        activeChildren[type] = activeGroups[type].children;
+    };
+
+    fn.setActiveItems = function () {
+        activeItems[type] = activeChildren[type][indexItem];
+    };
+
+    fn.setCallback = function () {
+        if (typeof data.callback === "function") {
+            data.callback(activeItems.tab, activeItems.pane);
+        }
+    };
+
+    fn.reset = function () {
+        for (var groupIndex = 0; groupIndex < groups['tab'].length; groupIndex++) {
+            tabItems = groups['tab'][groupIndex].children;
+            paneItems = groups['pane'][groupIndex].children;
+
+            for (var itemIndex = 0; itemIndex < tabItems.length; itemIndex++) {
+                tabItems[itemIndex].classList.remove(data['tabActive']);
+                paneItems[itemIndex].classList.remove(data['paneActive']);
+            }
+        }
+        localStorage.removeItem('tabbis');
+    };
+
+    return fn;
+})();</script> <script type="text/javascript">var tabs = tabbis.init({
+    tabGroup: "[data-tabs]",
+    paneGroup: "[data-panes]",
+    tabActive: "active",
+    paneActive: "active",
+    callback: function (tab, pane) {
+        // console.log("TAB id:" + tab.id + pane.id + tableid);
+        // this makes sure to refresh tables on given tab change to make sure they have buttons and everything
+        // which tab has which table
+        findObjectsToRedraw(tab.id + "-Content");
+    }
+});
+
+// in theory should take care of removing local storage for tabbis
+// some errors occurs if the local storage is not cleaned after a while
+window.addEventListener("unload", tabbis.remove, false);
+</script> <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/evotecit/cdn@0.0.27/JS/redrawObjects.min.js"></script></footer></body></html>
