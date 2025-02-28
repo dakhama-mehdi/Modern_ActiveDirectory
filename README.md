@@ -3,6 +3,8 @@
 # ModernActiveDirectory 
 New experience (Safe, Easy, Fast) given an overview of Active Directory environment from a beautiful interactive HTML report
 
+<a href="https://dakhama-mehdi.github.io/Modern_ActiveDirectory/Examples/ADModern_Resume.html" target="_blank">View Example HTML Page</a>
+
 ![Logo](Pictures/Logo.png "Logo")
 ### Get new AD look from one command less than one minute
 
