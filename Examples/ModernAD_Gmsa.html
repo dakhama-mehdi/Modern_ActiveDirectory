@@ -1,0 +1,1324 @@
+﻿<!DOCTYPE html>
+ <html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1" name="viewport"><meta content="2026-06-12 13:56:02" name="revised"><title>AD_ModernReport</title><link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" as="style" type="text/css" rel="stylesheet preload prefetch"/><link comment="font-awesome" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script comment="jquery" type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script><link href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><link href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script type="text/javascript" src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script><script type="text/javascript" src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script><script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.13.5/sorting/datetime-moment.js"></script><link href="https://cdn.datatables.net/buttons/2.4.0/css/buttons.dataTables.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.0/js/dataTables.buttons.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script><script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.0/js/buttons.html5.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script><link href="https://cdn.datatables.net/datetime/1.5.0/css/dataTables.dateTime.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script type="text/javascript" src="https://cdn.datatables.net/datetime/1.5.0/js/dataTables.dateTime.min.js"></script><link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script type="text/javascript" src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script><link href="https://cdn.datatables.net/searchbuilder/1.5.0/css/searchBuilder.dataTables.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><script type="text/javascript" src="https://cdn.datatables.net/searchbuilder/1.5.0/js/dataTables.searchBuilder.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/gh/evotecit/cdn@0.0.31/JS/dataTables.buttons.toggleView.js"></script><link comment="font-materialicon" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" as="style" type="text/css" rel="stylesheet preload prefetch"/><style type="text/css">body {    font-family: 'Roboto Condensed', sans-serif;    font-size: 8pt;    margin: 0px;}input {    font-size: 8pt;}.main-section {    margin-top: 55px;}</style><style type="text/css">td:first-child {    white-space: nowrap;}thead input {    width: 100%;    box-sizing: border-box;    padding: -3px;}td::before, td.sorting_1::before {    color: #007bff !important;}tfoot input {    width: 100%;    box-sizing: border-box;    padding: -3px;}div.dataTables_wrapper {    margin: 5px;}</style><noscript><style type="text/css">table {
+    border-collapse: collapse;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+table td {
+    border-width: 1px;
+    padding: 4px;
+    text-align: left;
+    border-top: 1px solid #ddd;
+}
+
+table thead th {
+    text-align: center;
+    font-weight: bold;
+    padding: 4px 17px;
+    border-bottom: 1px solid #111;
+    background-color: white;
+    color: black;
+}
+
+table tfoot th {
+    text-align: center;
+    font-weight: bold;
+    padding: 4px 17px;
+    border-top: 1px solid #111;
+    background-color: white;
+    color: black;
+}
+
+table tr:nth-of-type(odd) {
+    background-color: #F6F6F5;
+}
+
+table tr:nth-of-type(even) {
+    background-color: white;
+}
+
+table td, table th {
+    border: 1px solid black;
+}</style></noscript><style type="text/css">div.dt-button-collection {    position: relative;    margin-top: 10px !important;    width: auto !important;    margin-bottom: 10px !important;}</style><style type="text/css">.defaultPanel {    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);    transition: 0.3s;    border-radius: 5px;    margin: 5px;}</style><style type="text/css">.defaultSection {    flex-direction: column;    border: 1px solid #bbbbbb;    padding-bottom: 0px;    margin: 5px;    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);    transition: 0.3s;    border-radius: 5px;}.defaultSectionHead {    display: flex;    justify-content: center;    padding: 5px;    margin: 0px 0px 0px 0px;    font-weight: bold;    background-color: #00bfff;    color: #ffffff;}</style><style type="text/css">.defaultText {    margin: 5px;}</style><style type="text/css">.overflowHidden {    overflow: hidden;    overflow-x: hidden;    overflow-y: hidden;}.flexParent {    display: flex;    justify-content: space-between;}.flexParentInvisible {    display: flex;    justify-content: space-between;}.flexElement {    flex-basis: 100%;    max-width: 100%;}.flexPanel {    flex-basis: 100%;    max-width: 100%;}.flex-grid {    display: flex;}</style><style type="text/css" comment="navigation-menu">/* navigation-menu-start */
+/*
+    Plugin: hs Menu (Modern Mega Menu)
+    Frameworks: jQuery 3.3.1 & Material Design Iconic Font 2.0
+    Author: Asif Mughal
+    GitHub: https://github.com/CodeHimBlog
+    URL: https://www.codehim.com
+    License: MIT License
+    Copyright (c) 2018 - Asif Mughal
+*/
+
+.has-child, .nav-controls, .its-children, .user-penal, .grid-items, .nav-links, .dropdown-items .hs-navigation {
+    margin: 0;
+    padding: 0
+}
+
+.hs-menubar {
+    /*
+    background: #161B22;
+    color: #fff;
+    */
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+}
+
+.hs-menubar.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.hs-navigation {
+    height: 100vh;
+    width: 270px;
+    /*
+
+    background: #0D1117;
+    */
+    position: fixed;
+    top: 50px;
+    left: -320px;
+    z-index: 999;
+    overflow: hidden;
+    /*
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+    */
+}
+
+.hs-navigation.open {
+    left: 0;
+}
+
+.hs-navigation, .hs-navigation.open {
+    transition: .6s;
+    -webkit-transition: .6s;
+    -moz-transition: .6s;
+}
+
+.hs-menubar, .hs-navigation {
+    font-family: 'Nanum Gothic', sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-smooth: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.hs-user {
+    right: 50px;
+    overflow: hidden;
+}
+
+.hs-user img {
+    width: 32px;
+    height: 32px;
+    transition: .3s;
+}
+
+.hs-user img:hover {
+    opacity: .8;
+    -webkit-opacity: .8;
+    -moz-opacity: .8;
+    transform: scale(1.1);
+    transition: .3s;
+}
+
+.user-penal {
+    width: 130px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.33);
+    background: #fff;
+    list-style: none;
+    position: fixed;
+    display: none;
+    top: 50px;
+    right: 10px;
+    line-height: 1.5;
+    z-index: 100;
+}
+
+.user-penal li a {
+    font-size: 12px;
+    text-decoration: none;
+    color: #666;
+    display: block;
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: .3s
+}
+
+.user-penal li .zmdi {
+    padding-right: 10px;
+}
+
+.user-penal li .fas {
+    padding-right: 10px;
+}
+
+.user-penal li .fab {
+    padding-right: 10px;
+}
+
+.user-penal li .far {
+    padding-right: 10px;
+}
+
+.user-penal li a:hover {
+    background: rgba(0, 0, 0, 0.1);
+    transition: .3s;
+}
+
+/* More trigger for user penal*/
+
+.search-trigger:hover, .menu-trigger:hover, .grid-trigger:hover, .more-trigger:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transition: .3s;
+}
+
+.search-trigger, .menu-trigger, .grid-trigger, .hs-user, .more-trigger {
+    position: absolute;
+    top: 8px;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    line-height: 35px;
+    border-radius: 50%;
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
+    transition: .3s;
+    z-index: 100;
+}
+
+.menu-trigger {
+    left: 10px;
+}
+
+.search-trigger {
+    left: 50px;
+}
+
+.grid-trigger {
+    right: 90px;
+}
+
+.more-trigger {
+    right: 12px;
+}
+
+/* Grid Items */
+
+.grid-items {
+    width: 230px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.33);
+    background: #fff;
+    padding-top: 10px;
+    position: fixed;
+    right: 80px;
+    top: 50px;
+    text-align: center;
+    display: none;
+    z-index: 120;
+}
+
+.grid-items li.grid {
+    list-style: none;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 2px;
+    border-radius: 50%;
+    font-size: 11px;
+}
+
+.grid-items a {
+    text-decoration: none;
+    color: #666;
+}
+
+/* View More Button for grid items */
+
+li.more-btn {
+    height: 32px;
+    line-height: 32px;
+    margin: 15px 15px 5px 15px;
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+}
+
+li.more-btn a {
+    text-decoration: none;
+    background: #e41b17;
+    color: #fff;
+    font-size: 13px;
+    display: block;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+li.more-btn a:hover {
+    opacity: .8;
+    -webkit-opacity: .8;
+    -moz-opacity: .8;
+}
+
+.grid-title {
+    border: 1px red solid;
+}
+
+/* Brand Logo */
+
+.brand-logo {
+    display: block;
+    text-align: center;
+}
+
+.brand-logo img {
+    width: 100px;
+    height: auto;
+    margin-top: 12px;
+}
+
+/* Ripple Effect*/
+
+@-webkit-keyframes ripple-out {
+    from {
+        opacity: 1;
+        -webkit-opacity: 1;
+    }
+    to {
+        top: -12px;
+        right: -12px;
+        bottom: -12px;
+        left: -12px;
+        opacity: 0;
+    }
+}
+
+@keyframes ripple-out {
+    from {
+        opacity: 1;
+        -webkit-opacity: 1;
+    }
+    to {
+        top: -12px;
+        right: -12px;
+        bottom: -12px;
+        left: -12px;
+        opacity: 0;
+    }
+}
+
+.ripple-out {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+
+.ripple-out:before {
+    content: '';
+    position: absolute;
+    border: rgba(255, 255, 255, 0.3) solid 6px;
+    border-radius: 50%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    animation: ripple-out .4s linear forwards;
+    -webkit-animation: ripple-out .4s linear forwards;
+}
+
+/* Fade in Up */
+
+@-webkit-keyframes fadeInUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+    }
+    to {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.fadeInUp {
+    animation: fadeInUp .4s ease forwards;
+    -webkit-animation: fadeInUp .4s ease forwards;
+}
+
+/* Background Fadding */
+
+.dim-overlay {
+    display: none;
+}
+
+.dim-overlay:before {
+    content: "";
+    background-color: rgba(0, 0, 10, .4);
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    z-index: 2;
+}
+
+/* Search Box */
+
+.search-box {
+    position: absolute;
+    height: 50px;
+    background: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0px;
+    top: 0;
+    z-index: 500;
+    left: 100px;
+}
+
+.search-box button.search-submit, .search-box input[type="text"] {
+    padding: 6px;
+    border: 0;
+    outline: 0;
+}
+
+.search-box input[type="text"] {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+button.search-submit {
+    -webkit-appearance: none;
+    background: #e41b17;
+    color: #fff;
+    text-shadow: 0.1px 0.1px #444;
+    margin-left: -5px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+button.search-submit:disabled {
+    background: #888;
+    color: #555;
+}
+
+/* Navigation Controls */
+
+.nav-controls {
+    height: 36px;
+    line-height: 36px;
+    background: rgba(0, 0, 0, 0.12);
+    text-align: right;
+}
+
+.nav-controls .nav-full, .nav-controls .nav-fixed {
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    border-radius: 2px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 1;
+    outline: 0;
+    border: 0;
+    margin: 0 3px;
+}
+
+.nav-controls .nav-full:hover, .nav-controls .nav-fixed:hover {
+    opacity: .8;
+    -webkit-opacity: .8;
+}
+
+/* User Info*/
+
+.user-info {
+    position: fixed;
+    top: 50px;
+    right: 30px;
+    width: 230px;
+    background: #fff;
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    text-align: center;
+    line-height: 1;
+    display: none;
+}
+
+.user-info li {
+    padding: 10px;
+    list-style: none;
+}
+
+.user-info .profile-pic img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.user-info .user-name {
+    font-size: 14px;
+    color: #222;
+}
+
+.user-info .user-bio {
+    font-size: 11px;
+    color: #555;
+    padding-bottom: 0;
+}
+
+/* Nav Links */
+
+.nav-links {
+    list-style: none;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.nav-links .its-parent, .nav-links li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.nav-links .its-parent:hover, .nav-links li a:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.nav-links .icon {
+    font-size: 18px;
+    padding-right: 20px;
+}
+
+.nav-links .has-child ul li {}
+
+.nav-links ul .its-parent:before, .nav-links .has-child ul li a:before {
+    content: "--";
+    display: inline-block;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    width: 15px;
+    height: 10px;
+    position: relative;
+    right: 10px;
+}
+
+.nav-links .has-child ul {
+    margin-left: 35px;
+    border-left: 1px dashed rgba(255, 255, 255, 0.4);
+}
+
+.nav-links .its-children {
+    display: none;
+    list-style: none;
+}
+
+.its-parent:after {
+    content: "\f2f9";
+    font-family: Material-Design-Iconic-Font;
+    float: right;
+    margin-top: 2px;
+    margin-right: 20px;
+    transition: .4s;
+    font-size: 16px;
+}
+
+.its-parent.downed {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.its-parent.downed:after {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(360deg);
+    transition: .4s;
+    -webkit-transition: .4s;
+    -moz-transition: .4s;
+}
+/* navigation-menu-end */
+</style><style type="text/css" comment="navigation-menu">/* navigation-menu-start */.hs-navigation {    background-color: #202124;}.hs-menubar {    background-color: #202124;}/* navigation-menu-end */</style><style type="text/css">.tabsWrapper {    text-align: center;    font-family: 'Roboto', sans-serif !important;    text-transform: uppercase;}[data-tabs] {    display: flex;    margin: 5px 5px 5px 5px;    padding: 0px;    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);    border-radius: 5px;    justify-content: center;    flex-wrap: wrap;}[data-tabs]>* {    cursor: pointer;    padding: 10px 20px;    flex-grow: 1;    flex-shrink: 1;    flex-basis: auto;}[data-tabs] .active {    background: #004c87;    color: #fff;    border-radius: 5px;}[data-panes]>* {    display: none;}[data-panes]>.active {    display: block;}</style></head><body><nav class="hs-navigation evotec-navigation"><header class="hs-menubar"><div class="menu-trigger"><i class="zmdi zmdi-menu"></i></div><div class="brand-logo"><a><img title="PSWriteHTML Logo" alt="PSWriteHTML Logo"></img></a></div><div class="grid-trigger toggle" data-reveal=".grid-items"><i class="zmdi zmdi-view-module"></i></div><div class="hs-user toggle" data-reveal=".user-info"><img src="https://evotec.xyz/wp-content/uploads/2021/04/PrzemyslawKlysAndKulkozaurr.jpg" alt="Evotec"></div><div class="more-trigger toggle" data-reveal=".user-penal"><i class="zmdi zmdi-more-vert"></i></div></header><section class="box-model"><ul class="user-penal"></ul></section><ul class="nav-links"><li><a> </a></li><li><a> </a></li><li><a href="ModernAD.html"><span class="icon"><i class="far fa-chart-bar fa-fw"></i></span>Dashboard</a></li><li><a href="ModernAD_Insights.html"><span class="icon"><i class="fas fa-chart-line fa-fw"></i></span>Insights</a></li><li><a href="ModernAD_Users.html"><span class="icon"><i class="fas fa-user-tie fa-fw"></i></span>Users</a></li><li><a href="ModernAD_Computers.html"><span class="icon"><i class="fas fa-laptop fa-fw"></i></span>Computers</a></li><li><a href="ModernAD_Groups.html"><span class="icon"><i class="fas fa-users fa-fw"></i></span>Groups</a></li><li><a href="ModernAD_GPO.html"><span class="icon"><i class="fas fa-scroll fa-fw"></i></span>Group Policy</a></li><li><a href="ModernAD_OU.html"><span class="icon"><i class="zmdi zmdi-folder zmdi-hc-fw"></i></span>OU</a></li><li class="has-child"><span class="its-parent"><span class="icon"><i class="fas fa-network-wired fa-fw"></i></span>Domain Objets</span><ul class="its-children"><li><a href="ModernAD_Gmsa.html"><span class="icon"><i class="fas fa-user-cog fa-fw"></i></span>Gmsa</a></li><li><a href="ModernAD_Groups_Empty.html"><span class="icon"><i class="fas fa-users-slash fa-fw"></i></span>Groups_Empty</a></li><li><a href="ModernAD_Printers.html"><span class="icon"><i class="fas fa-print fa-fw"></i></span>Printers</a></li></ul></li><li><a><span class="icon"><i class="fas fa-chess-rook fa-fw"></i></span>Forensic (Pro)🔒</a></li><li><a><span class="icon"><i class="fas fa-chart-bar fa-fw"></i></span>Auditing Change (Pro)🔒</a></li><li class="has-child"><span class="its-parent"><span class="icon"><i class="fas fa-info-circle fa-fw"></i></span>About</span><ul class="its-children"><li><a href="ModernAD_Resume.html"><span class="icon"><i class="fas fa-chart-pie fa-fw"></i></span>Resume</a></li><li class="has-child"><span class="its-parent"><span class="icon"><i class="fas fa-address-book fa-fw"></i></span>Documentation</span><ul class="its-children"><li><a href="https://www.thelazyadministrator.com/2023/03/19/modern-active-directory-an-update-to-pshtml-ad-report/">English</a></li><li><a href="https://www.it-connect.fr/une-vue-densemble-de-votre-annuaire-en-un-clin-doeil-avec-modern-active-directory/">French</a></li></ul></li></ul></li></ul><script>$(document).ready(function () {    $('.hs-menubar').hsMenu({
+    "startMenuOpen":  false,
+    "menuWidth":  220,
+    "resizeContent":  true,
+    "fixedMenu":  true,
+    "fixedMenubar":  true,
+    "outClickToClose":  true,
+    "bgFading":  true,
+    "disableHamburger":  false,
+    "navControls":  false,
+    "menuWidthExtended":  320
+});});</script></nav><div class="main-section"><div class="tabsWrapper"><div class="tabsSlimmer"><div data-tabs="true"><div id="Tab-0u9rvpy5" class="active"><span class="fas fa-robot"></span>&nbsp;<span>Group Managment Service</span></div></div></div></div><div data-panes="true"><div id="Tab-0u9rvpy5-Content" class="active"><div class="flexParentInvisible flexElement overflowHidden defaultSectionContentInvisible" style="flex-basis:100%"><div class="flexParent flexElement overflowHidden defaultSectionContentInvisible collapsable" Style="flex-basis:100%"><div id="anchor-b5cv2a6" class="flexPanel overflowHidden defaultPanel"><script>                $(document).ready(function() {
+                    $.fn.dataTable.moment( 'L' );
+                    
+                    
+                    
+                    //  Table code
+                    var table = $('#DT-WHrNVyLM').DataTable(
+                        {
+    "dom":  "Bfrtip",
+    "searchFade":  false,
+    "scrollCollapse":  false,
+    "ordering":  true,
+    "order":  [
+
+              ],
+    "rowGroup":  "",
+    "info":  true,
+    "procesing":  true,
+    "select":  true,
+    "searching":  true,
+    "stateSave":  true,
+    "paging":  true,
+    "pagingType":  [
+                       "full_numbers"
+                   ],
+    "lengthMenu":  [
+                       [
+                           15,
+                           25,
+                           50,
+                           100,
+                           -1
+                       ],
+                       [
+                           15,
+                           25,
+                           50,
+                           100,
+                           "All"
+                       ]
+                   ],
+    "language":  {
+
+                 },
+    "data":  [{
+    "Name":  "No data available to display."
+}],
+    "columns":  [
+                    {
+                        "data":  "Name"
+                    }
+                ],
+    "deferRender":  true,
+    "buttons":  [
+                    {
+                        "extend":  "copyHtml5"
+                    },
+                    {
+                        "extend":  "excelHtml5",
+                        "exportOptions":  {
+                                              "format":      {
+        body: function (data, row, column, node) {
+            data = $('<p>' + data + '</p>').text(); return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
+        }
+    }
+                                          }
+                    },
+                    {
+                        "extend":  "csvHtml5",
+                        "text":  "CSV",
+                        "charset":  "utf-8",
+                        "extension":  ".csv",
+                        "fieldSeparator":  ";",
+                        "bom":  true
+                    },
+                    {
+                        "extend":  "pdfHtml5",
+                        "pageSize":  "A3",
+                        "orientation":  "landscape"
+                    },
+                    {
+                        "extend":  "pageLength"
+                    },
+                    {
+                        "extend":  "searchBuilder"
+                    },
+                    {
+                        "extend":  "toggleView",
+                        "text":  "Switch to ScrollX",
+                        "defaultViewMode":  "responsive"
+                    }
+                ],
+    "responsive":  {
+                       "details":  {
+                                       "type":  "inline"
+                                   }
+                   },
+    "responsiveConfig":  {
+                             "details":  {
+                                             "type":  "inline"
+                                         }
+                         }
+}
+                    );
+                    
+                    
+                    
+                });</script><div class="flexElement overflowHidden"><table width="100%" id="DT-WHrNVyLM" class="dataTables wrap display compact"><thead><tr><th>Name</th></tr></thead></table></div></div></div></div></div><style>.hs-navigation {
+    width:220px !important;
+    overflow:visible !important;
+}
+
+.modernad-topbar {
+    background:#202124;
+    color:white;
+    height:50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 20px;
+    box-sizing:border-box;
+    width:100%;
+}
+
+.modernad-left {
+    display:flex;
+    align-items:center;
+}
+
+.modernad-right {
+    display:flex;
+    align-items:center;
+    gap:16px;
+    text-align:right;
+}
+
+.modernad-logo-header {
+    height:50px;
+    position:relative;
+    top:20px;
+}
+
+.modernad-domain {
+    font-size:18px;
+    font-weight:600;
+    color:#ffffff;
+    white-space:nowrap;
+}
+
+.modernad-date {
+    font-size:13px;
+    color:#d0d0d0;
+    white-space:nowrap;
+}
+
+.modern-card {
+    background:#ffffff;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:16px;
+    box-shadow:0 4px 14px rgba(0,0,0,.05);
+}
+
+.modern-card-title {
+    font-size:16px;
+    font-weight:600;
+    color:#0057d9;
+    margin-bottom:14px;
+}
+
+.modern-mini-table {
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+}
+
+.modern-mini-table th {
+    text-align:left;
+    color:#4b5563;
+    font-weight:600;
+    padding:8px;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.modern-mini-table td {
+    padding:9px 8px;
+    border-bottom:1px solid #eef2f7;
+}
+
+.modern-mini-table tr:last-child td {
+    border-bottom:none;
+}
+
+.modernad-footer {
+    position:absolute;
+    bottom:100px;
+    left:10px;
+    line-height:20px;
+    right:10px;
+    background:#2b2d31;
+    border-radius:8px;
+    padding:10px;
+    color:#d0d0d0;
+    font-size:11px;
+    text-align:left;
+    border:1px solid #3a3d42;
+}
+
+.modernad-footer-title {
+    color:white;
+    font-weight:600;
+    font-size:18px;
+    margin-bottom:4px;
+}</style><div class="defaultText"><span><script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function SetModernADHeader() {
+
+        var bar = document.querySelector(".hs-menubar");
+
+        if (bar) {
+
+            bar.innerHTML =
+                "<div class='modernad-topbar'>" +
+                    "<div class='modernad-left'>" +
+                        "<img class='modernad-logo-header' src='https://raw.githubusercontent.com/dakhama-mehdi/ModernAD/refs/heads/main/Pictures/AD1.PNG'>" +
+                    "</div>" +
+                    "<div class='modernad-right'>" +
+                        "<div class='modernad-domain'>info.lab</div>" +
+                        "<div class='modernad-date'>Collected on 2026-06-12 13:56</div>" +
+                    "</div>" +
+                "</div>";
+
+            bar.style.display = "block";
+            bar.style.padding = "0";
+        }
+
+        window.dispatchEvent(new Event('resize'));
+    }
+
+    setTimeout(SetModernADHeader, 500);
+
+    setTimeout(function () {
+        window.dispatchEvent(new Event('resize'));
+    }, 1200);
+
+    document.addEventListener("click", function () {
+        setTimeout(function () {
+            window.dispatchEvent(new Event('resize'));
+        }, 300);
+    });
+
+});
+document.addEventListener("DOMContentLoaded", function () {
+
+    setTimeout(function () {
+
+        var nav = document.querySelector(".hs-navigation");
+
+        if(nav && !document.querySelector(".modernad-footer")) {
+
+            nav.insertAdjacentHTML('beforeend',
+                "<div class='modernad-footer'>" +
+                    "<div>Edition</div>" +
+                    "<div class='modernad-footer-title'>Community</div>" +
+                    "<div>Free edition</div>" +
+                    "<div>Version 1.1.4</div>" +
+                "</div>"
+            );
+        }
+
+    }, 1000);
+
+});
+</script></span></div></div></div><footer><script type="text/javascript" comment="navigation-menu">/* navigation-menu-start */
+/*
+    Plugin: hs Menu (Modern Mega Menu)
+    Frameworks: jQuery 3.3.1 & Material Design Iconic Font 2.0
+    Author: Asif Mughal
+    GitHub: https://github.com/CodeHimBlog
+    URL: https://www.codehim.com
+    License: MIT License
+    Copyright (c) 2019 - Asif Mughal
+*/
+(function ($) {
+    $.fn.hsMenu = function (options) {
+        var setting = $.extend({
+            bgFading: true, //(false to disable) background dim overlay when side navigation drawer open
+            outClickToClose: true, // (false to disable) close opened items if user click outside of them
+            navControls: true, // (false to disable) provide buttons to allow visitors to increase some width and height of drawer
+            fixedMenubar: true, //false to static
+            fixedMenu: false,
+            disableHamburger: false,
+            startMenuOpen: false,
+            resizeContent: false,
+            menuWidth: 270,
+            menuWidthExtended: 320,
+        }, options);
+
+        return this.each(function () {
+
+            var $hsNav, navControlBoard, setFullHeight, setSomeWidth, dimBG;
+
+            $hsNav = $(".hs-navigation");
+
+            if (setting.fixedMenu) {
+                // lets overwrite some settings to provide this functionality
+                setting.startMenuOpen = true;
+                setting.resizeContent = true;
+                setting.outClickToClose = false;
+                setting.disableHamburger = true;
+            }
+
+            if (setting.startMenuOpen) {
+                $(this).toggleClass("ripple-out");
+                $($hsNav).toggleClass("open");
+                if (setting.resizeContent) {
+                    $(".main-section").css("margin-left", setting.menuWidth + "px");
+                }
+            }
+
+            if (setting.bgFading == true) {
+
+                dimBG = $div();
+
+                $(dimBG).addClass("dim-overlay").insertAfter($hsNav);
+
+            }
+            if (setting.fixedMenubar == true) {
+
+                $(this).addClass("sticky");
+
+            }
+
+            $(".toggle").click(function () {
+
+                $(this).toggleClass("ripple-out");
+
+                $reveal = $(this).attr('data-reveal');
+                $allRevealable = ".grid-items, .user-penal, .user-info";
+
+                if ($($reveal).hasClass("fadeInUp")) {
+                    $($reveal).removeClass("fadeInUp")
+                        .fadeOut();
+
+                } else {
+                    $($reveal).fadeIn().addClass("fadeInUp");
+
+                }
+
+                $($allRevealable)
+                    .not($reveal).removeClass("fadeInUp ripple-out").fadeOut();
+
+
+            });
+
+            if (setting.disableHamburger !== true) {
+                $(".menu-trigger").click(function () {
+
+                    $(this).toggleClass("ripple-out");
+
+                    $($hsNav).toggleClass("open");
+
+                    $(dimBG).toggle(500);
+
+
+                });
+            }
+
+            // Search Form Functionality
+
+            var $input = $(".search-box").find("input");
+
+
+            $(".search-trigger").click(function () {
+
+
+                $(this).toggleClass("ripple-out");
+
+                $(this).find(".zmdi").removeClass("zmdi-search").addClass("zmdi-close");
+
+
+                if ($(this).hasClass("ripple-out")) {
+                    $(".search-box").animate({
+                        'width': '250px',
+
+
+                    }, 500, function () {
+                        $input.focus();
+
+                    });
+
+                } else {
+                    $(".search-box").animate({
+                        'width': '0px',
+
+                    }, 500);
+
+                    $(this).find(".zmdi").removeClass("zmdi-close").addClass("zmdi-search");
+
+                }
+
+
+            });
+
+            $($input).keyup(function () {
+                if ($(this).val().length > 0) {
+                    $(".search-submit").attr("disabled", false);
+
+                } else {
+                    $(".search-submit").attr("disabled", true);
+
+                }
+            });
+
+
+            if (setting.outClickToClose == true) {
+
+                //Close user penal, hs navigation, user info or grid items if user click outside of them
+
+                $(window).click(function (e) {
+                    if ($(e.target)
+                        .closest('.more-trigger, .grid-trigger,  .user-penal, .grid-items, .menu-trigger, .hs-navigation, .hs-user, .user-info')
+                        .length) {
+
+                        return;
+                    }
+
+                    $(".user-penal, .grid-items, .user-info").fadeOut()
+                        .removeClass("fadeInUp");
+
+                    $($hsNav).removeClass("open");
+                    $(dimBG).fadeOut();
+
+                });
+            }
+            // Nav controls
+            if (setting.navControls == true) {
+
+                navControlBoard = $div();
+
+                setFullHeight = $button();
+
+                setSomeWidth = $button();
+
+                $(setFullHeight)
+                    .html("<i class='zmdi zmdi-unfold-more'></i>")
+                    .addClass("nav-fixed")
+                    .appendTo(navControlBoard);
+
+                $(setSomeWidth)
+                    .addClass("nav-full")
+                    .html("<i class='zmdi zmdi-crop-free'></i>")
+                    .appendTo(navControlBoard);
+
+                $(navControlBoard)
+                    .addClass("nav-controls")
+                    .prependTo(".hs-navigation");
+
+
+                $(".nav-fixed").on("click", function (x) {
+                    x = $(this).find(".zmdi");
+
+                    if (x.hasClass("zmdi-unfold-more")) {
+
+                        $($hsNav).animate({
+                            'position': 'fixed',
+                            'top': 0,
+
+
+                        }, 400, function () {
+
+                            $($hsNav).css({
+                                'overflow': 'auto',
+
+                            });
+                            x.removeClass("zmdi-unfold-more").addClass("zmdi-unfold-less");
+
+                        });
+
+
+                    } else {
+                        $($hsNav).animate({
+                            'top': '50px',
+
+                        }, 400, function () {
+                            $($hsNav).css({
+                                'overflow': 'hidden',
+
+                            });
+                            x.addClass("zmdi-unfold-more").removeClass("zmdi-unfold-less");
+                        });
+
+
+                    }
+
+
+                });
+
+                // To increase some width of the side navigation
+
+                $(".nav-full").click(function (x) {
+                    x = $(this).find(".zmdi");
+
+                    if (x.hasClass("zmdi-crop-free")) {
+
+                        x.removeClass("zmdi-crop-free").addClass("zmdi-aspect-ratio-alt");
+
+                        $(".hs-navigation").width(setting.menuWidthExtended + "px");
+
+                        if (setting.resizeContent) {
+                            $(".main-section").css("margin-left", setting.menuWidthExtended + "px");
+                        }
+
+                    } else {
+                        $(".hs-navigation").width(setting.menuWidth + "px");
+
+                        if (setting.resizeContent) {
+                            $(".main-section").css("margin-left", setting.menuWidth + "px");
+                        }
+
+                        x.addClass("zmdi-crop-free").removeClass("zmdi-aspect-ratio-alt");
+                    }
+
+                });
+
+            }
+
+            // User Info
+
+            $(".hs-user").click(function () {
+
+                var $thisPic = $(this).find("img").clone();
+
+                $(".profile-pic").html($thisPic);
+
+
+            });
+
+
+            // Nested Dropdowns
+
+            $(".its-parent").click(function () {
+
+                $(this).siblings(".its-children").slideToggle();
+
+                $(this).toggleClass("downed");
+
+
+            });
+
+            function $div() {
+                return document.createElement("div");
+            }
+
+            function $button() {
+                return document.createElement("button");
+            }
+
+        });
+    };
+
+})(jQuery);
+/* navigation-menu-end */
+</script> <script type="text/javascript">var tabbis = (function () {
+    var fn = {};
+
+    var data;
+    var types = ['tab', 'pane'];
+    var type;
+    var groups = [];
+    var activeGroups = [];
+    var activeChildren = [];
+    var activeItems = [];
+    var indexGroup;
+    var indexItem;
+    var memory = [];
+
+    fn.init = function (options) {
+        data = options;
+        fn.setDefaults();
+        fn.setMemory();
+
+        groups['tab'] = document.querySelectorAll(data.tabGroup);
+        groups['pane'] = document.querySelectorAll(data.paneGroup);
+
+        for (var groupIndex = 0; groupIndex < groups['tab'].length; groupIndex++) {
+            var tabItems = groups['tab'][groupIndex].children;
+
+            for (var itemIndex = 0; itemIndex < tabItems.length; itemIndex++) {
+                tabItems[itemIndex].addEventListener('click', fn.onClick.bind(this, groupIndex, itemIndex), false);
+
+                indexGroup = groupIndex;
+                indexItem = itemIndex;
+
+                if (!fn.hasMemory()) continue;
+                fn.setNodes(groupIndex, itemIndex);
+            }
+        }
+    };
+
+    fn.onClick = function (groupIndex, itemIndex) {
+        fn.setNodes(groupIndex, itemIndex);
+        fn.setCallback(indexGroup, indexItem);
+    };
+
+    fn.setNodes = function (groupIndex, itemIndex) {
+        indexGroup = groupIndex;
+        indexItem = itemIndex;
+
+        for (var i = 0; i < types.length; i++) {
+            type = types[i];
+
+            fn.setActiveGroup();
+            fn.setActiveChildren();
+            fn.setActiveItems();
+            fn.putActiveClass();
+        }
+
+        memory[groupIndex] = [];
+        memory[groupIndex][itemIndex] = true;
+
+        try {
+            localStorage.setItem('tabbis', JSON.stringify(memory));
+        } catch (e) {
+            console.log('Tabs local storage failed. Most likely IE in use.')
+        }
+    };
+
+    //fn.hasMemory = function () {
+    //    if (typeof memory === 'undefined') return;
+    //    if (typeof memory[indexGroup] === 'undefined') return;
+    //    if (typeof memory[indexGroup][indexItem] === 'undefined') return;
+    //    if (memory[indexGroup][indexItem] !== true) return;
+    //    return true;
+    //};
+
+    fn.hasMemory = function () {
+        // https://stackoverflow.com/questions/41902495/javascript-multidimensional-array-is-valid
+
+        if (typeof memory === 'undefined') return;
+        if (typeof memory[indexGroup] === 'undefined') return;
+        if (memory[indexGroup] === null) return;
+        if (typeof memory[indexGroup][indexItem] === 'undefined') return;
+        if (memory[indexGroup][indexItem] === null) return;
+        if (memory[indexGroup][indexItem] !== true) return;
+        return true;
+    };
+
+    fn.setMemory = function () {
+        try {
+            if (localStorage.getItem('tabbis') === null) return;
+            if (localStorage.getItem('tabbis').length == 0) return;
+
+            memory = Object.values(JSON.parse(localStorage.getItem('tabbis')));
+        } catch (e) {
+            console.log('Tabs local storage failed. Most likely IE in use.')
+        }
+    };
+
+    fn.putActiveClass = function () {
+        for (var i = 0; i < activeChildren[type].length; i++) {
+            activeChildren[type][i].classList.remove(data[type + 'Active']);
+        }
+
+        activeItems[type].classList.add(data[type + 'Active']);
+    };
+
+    fn.setDefaults = function () {
+        for (var i = 0; i < types.length; i++) {
+            type = types[i];
+
+            fn.setOption(type + 'Group', '[data-' + type + 's]');
+            fn.setOption(type + 'Active', 'active');
+        }
+    };
+
+    fn.setOption = function (key, value) {
+        data = data || [];
+        data[key] = data[key] || value;
+    };
+
+    fn.setActiveGroup = function () {
+        activeGroups[type] = groups[type][indexGroup];
+    };
+
+    fn.setActiveChildren = function () {
+        activeChildren[type] = activeGroups[type].children;
+    };
+
+    fn.setActiveItems = function () {
+        activeItems[type] = activeChildren[type][indexItem];
+    };
+
+    fn.setCallback = function () {
+        if (typeof data.callback === "function") {
+            data.callback(activeItems.tab, activeItems.pane);
+        }
+    };
+
+    fn.reset = function () {
+        for (var groupIndex = 0; groupIndex < groups['tab'].length; groupIndex++) {
+            tabItems = groups['tab'][groupIndex].children;
+            paneItems = groups['pane'][groupIndex].children;
+
+            for (var itemIndex = 0; itemIndex < tabItems.length; itemIndex++) {
+                tabItems[itemIndex].classList.remove(data['tabActive']);
+                paneItems[itemIndex].classList.remove(data['paneActive']);
+            }
+        }
+        localStorage.removeItem('tabbis');
+    };
+
+    return fn;
+})();</script> <script type="text/javascript">var tabs = tabbis.init({
+    tabGroup: "[data-tabs]",
+    paneGroup: "[data-panes]",
+    tabActive: "active",
+    paneActive: "active",
+    callback: function (tab, pane) {
+        // Ensure redraw runs after pane becomes visible
+        try {
+            var id = (tab && tab.id ? (tab.id + "-Content") : (pane && pane.id ? pane.id : null));
+            if (id) {
+                setTimeout(function () {
+                    try { findObjectsToRedraw(id); } catch (e) {}
+                    try { document.dispatchEvent(new CustomEvent('pswh:tab:shown', { detail: { id: id } })); } catch (e) {}
+                }, 80);
+            }
+        } catch (e) {}
+    }
+});
+
+// Safely clear tab memory on unload (if supported)
+try {
+    if (tabbis && typeof tabbis.reset === 'function') {
+        window.addEventListener("unload", tabbis.reset, false);
+    }
+} catch (e) {}
+</script> <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/evotecit/cdn@0.0.31/JS/redrawObjects.min.js"></script></footer></body></html>
